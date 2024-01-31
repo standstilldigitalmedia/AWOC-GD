@@ -1,5 +1,8 @@
 extends Node
 
+
+
+
 """namespace AWOC
 {
 	public class SerializedBone

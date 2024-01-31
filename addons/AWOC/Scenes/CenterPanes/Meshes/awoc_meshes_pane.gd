@@ -1,15 +1,23 @@
 @tool
 extends AwocCenterPaneBase
 
+@export var single_mesh_line_edit: LineEdit
+@export var add_single_mesh_button: Button
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
+@export var mesh_file_line_edit: LineEdit
+@export var mesh_file_browse_button: Button
+@export var add_mesh_file_button: Button
+
+@export var mesh_list_container: VBoxContainer
+
+func _on_add_single_mesh_button_pressed():
 	pass # Replace with function body.
 
+func _on_mesh_file_browse_button_pressed():
+	pass # Replace with function body.
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+func _on_add_mesh_file_button_pressed():
+	pass # Replace with function body.
 	
 """namespace AWOC
 {

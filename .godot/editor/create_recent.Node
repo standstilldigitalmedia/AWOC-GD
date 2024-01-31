@@ -1,3 +1,10 @@
+ColorRect
+VBoxContainer
+MarginContainer
+HBoxContainer
+LineEdit
+Button
+TextEdit
 Timer
 MeshInstance3D
 Camera3D
@@ -5,11 +12,3 @@ CSGSphere3D
 SpotLight3D
 ColorPickerButton
 HSlider
-HBoxContainer
-ColorRect
-MarginContainer
-CheckBox
-Label
-Button
-TextureRect
-VBoxContainer

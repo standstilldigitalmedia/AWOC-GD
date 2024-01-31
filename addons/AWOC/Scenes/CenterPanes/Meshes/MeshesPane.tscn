@@ -1,10 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://b5cm2d4tq4hyk"]
+[gd_scene load_steps=7 format=3 uid="uid://b5cm2d4tq4hyk"]
 
 [ext_resource type="Script" path="res://addons/AWOC/Scenes/CenterPanes/Meshes/awoc_meshes_pane.gd" id="1_opa14"]
 [ext_resource type="Theme" uid="uid://drffev6w87ljh" path="res://addons/AWOC/Themes/main_theme.tres" id="2_uaf4o"]
+[ext_resource type="Texture2D" uid="uid://cnuepoi4ynvoy" path="res://addons/AWOC/Images/Add.svg" id="3_21ojb"]
+[ext_resource type="Script" path="res://addons/AWOC/ControlOverrides/single_mesh_control_override.gd" id="3_fl2b8"]
 [ext_resource type="Texture2D" uid="uid://ck44qw1l0nk63" path="res://addons/AWOC/Images/Folder.svg" id="3_gjt58"]
+[ext_resource type="Script" path="res://addons/AWOC/ControlOverrides/multiple_mesh_control_override.gd" id="5_3qgmh"]
 
-[node name="Meshes" type="MarginContainer"]
+[node name="Meshes" type="MarginContainer" node_paths=PackedStringArray("single_mesh_line_edit", "add_single_mesh_button", "mesh_file_line_edit", "mesh_file_browse_button", "add_mesh_file_button", "mesh_list_container")]
 custom_minimum_size = Vector2(260, 400)
 anchors_preset = -1
 anchor_right = 0.247
@@ -16,41 +19,76 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 script = ExtResource("1_opa14")
+single_mesh_line_edit = NodePath("HBoxContainer/MainContainer/SingleMeshContainer/SingleMeshLineEdit")
+add_single_mesh_button = NodePath("HBoxContainer/MainContainer/SingleMeshContainer/AddSingleMeshButton")
+mesh_file_line_edit = NodePath("HBoxContainer/MainContainer/MeshFileContainer/MeshFileLineEdit")
+mesh_file_browse_button = NodePath("HBoxContainer/MainContainer/MeshFileContainer/MeshFileBrowseButton")
+add_mesh_file_button = NodePath("HBoxContainer/MainContainer/MeshFileContainer/AddMeshFileButton")
+mesh_list_container = NodePath("HBoxContainer/MainContainer/MeshListBackground/MeshListMarginContainer/MeshListScrollContainer/MeshListContainer")
 
-[node name="MainContainer" type="VBoxContainer" parent="."]
-custom_minimum_size = Vector2(250, 400)
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="HeadLabel" type="Label" parent="MainContainer"]
+[node name="MainContainer" type="VBoxContainer" parent="HBoxContainer"]
+custom_minimum_size = Vector2(250, 400)
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="HeadLabel" type="Label" parent="HBoxContainer/MainContainer"]
 layout_mode = 2
 theme = ExtResource("2_uaf4o")
 text = "Meshes"
 horizontal_alignment = 1
 
-[node name="AddMeshesContainer" type="HBoxContainer" parent="MainContainer"]
+[node name="SingleMeshContainer" type="HBoxContainer" parent="HBoxContainer/MainContainer"]
 layout_mode = 2
+theme_override_constants/separation = 47
 
-[node name="MeshObjectFilePathLabel" type="Label" parent="MainContainer/AddMeshesContainer"]
-custom_minimum_size = Vector2(245, 26)
+[node name="SingleMeshLineEdit" type="LineEdit" parent="HBoxContainer/MainContainer/SingleMeshContainer"]
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 theme = ExtResource("2_uaf4o")
-text = "Mesh file path: "
-clip_text = true
-text_overrun_behavior = 1
+placeholder_text = "Single mesh from scene"
+script = ExtResource("3_fl2b8")
 
-[node name="MeshObjectFilePathButton" type="Button" parent="MainContainer/AddMeshesContainer"]
+[node name="AddSingleMeshButton" type="Button" parent="HBoxContainer/MainContainer/SingleMeshContainer"]
+custom_minimum_size = Vector2(26, 26)
+layout_mode = 2
+theme = ExtResource("2_uaf4o")
+icon = ExtResource("3_21ojb")
+icon_alignment = 1
+
+[node name="MeshFileContainer" type="HBoxContainer" parent="HBoxContainer/MainContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="MeshFileLineEdit" type="LineEdit" parent="HBoxContainer/MainContainer/MeshFileContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme = ExtResource("2_uaf4o")
+placeholder_text = "Mesh file from file system"
+script = ExtResource("5_3qgmh")
+
+[node name="MeshFileBrowseButton" type="Button" parent="HBoxContainer/MainContainer/MeshFileContainer"]
 custom_minimum_size = Vector2(26, 26)
 layout_mode = 2
 theme = ExtResource("2_uaf4o")
 icon = ExtResource("3_gjt58")
 icon_alignment = 1
 
-[node name="MeshListBackground" type="ColorRect" parent="MainContainer"]
+[node name="AddMeshFileButton" type="Button" parent="HBoxContainer/MainContainer/MeshFileContainer"]
+custom_minimum_size = Vector2(26, 26)
+layout_mode = 2
+theme = ExtResource("2_uaf4o")
+icon = ExtResource("3_21ojb")
+icon_alignment = 1
+
+[node name="MeshListBackground" type="ColorRect" parent="HBoxContainer/MainContainer"]
 custom_minimum_size = Vector2(275, 400)
 layout_mode = 2
 color = Color(1, 1, 1, 0.0784314)
 
-[node name="MeshListMarginContainer" type="MarginContainer" parent="MainContainer/MeshListBackground"]
+[node name="MeshListMarginContainer" type="MarginContainer" parent="HBoxContainer/MainContainer/MeshListBackground"]
 custom_minimum_size = Vector2(275, 400)
 layout_mode = 1
 anchors_preset = 15
@@ -63,16 +101,16 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="MeshListScrollContainer" type="ScrollContainer" parent="MainContainer/MeshListBackground/MeshListMarginContainer"]
+[node name="MeshListScrollContainer" type="ScrollContainer" parent="HBoxContainer/MainContainer/MeshListBackground/MeshListMarginContainer"]
 custom_minimum_size = Vector2(265, 390)
 layout_mode = 2
 
-[node name="MeshListContainer" type="VBoxContainer" parent="MainContainer/MeshListBackground/MeshListMarginContainer/MeshListScrollContainer"]
+[node name="MeshListContainer" type="VBoxContainer" parent="HBoxContainer/MainContainer/MeshListBackground/MeshListMarginContainer/MeshListScrollContainer"]
 custom_minimum_size = Vector2(265, 0)
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="LoadMeshDialog" type="FileDialog" parent="MainContainer"]
+[node name="LoadMeshDialog" type="FileDialog" parent="HBoxContainer/MainContainer"]
 title = "Open a File"
 initial_position = 2
 size = Vector2i(400, 300)
@@ -81,5 +119,12 @@ ok_button_text = "Open"
 file_mode = 0
 filters = PackedStringArray("*.glb ; GL Transmission Format Binary file")
 
-[connection signal="pressed" from="MainContainer/AddMeshesContainer/MeshObjectFilePathButton" to="." method="_on_mesh_object_file_path_button_pressed"]
-[connection signal="file_selected" from="MainContainer/LoadMeshDialog" to="." method="_on_load_mesh_dialog_file_selected"]
+[node name="ColorRect" type="ColorRect" parent="HBoxContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+color = Color(1, 0, 0, 1)
+
+[connection signal="pressed" from="HBoxContainer/MainContainer/SingleMeshContainer/AddSingleMeshButton" to="." method="_on_add_single_mesh_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/MainContainer/MeshFileContainer/MeshFileBrowseButton" to="." method="_on_mesh_file_browse_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/MainContainer/MeshFileContainer/AddMeshFileButton" to="." method="_on_add_mesh_file_button_pressed"]
+[connection signal="file_selected" from="HBoxContainer/MainContainer/LoadMeshDialog" to="." method="_on_load_mesh_dialog_file_selected"]
