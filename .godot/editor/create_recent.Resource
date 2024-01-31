@@ -1,0 +1,4 @@
+AwocRes
+ShaderMaterial
+StandardMaterial3D
+Resource
