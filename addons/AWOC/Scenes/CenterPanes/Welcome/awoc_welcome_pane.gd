@@ -32,6 +32,7 @@ func _on_load_awoc_button_pressed():
 func _on_new_awoc_dialog_file_selected(path):
 	awoc_res = AwocRes.new(AwocHelper.get_file_name_from_path(path), path)
 	awoc_res.awoc_slots_res = AwocSlotsRes.new()
+	awoc_res.awoc_avatar_res = AwocAvatarRes.new()
 	awoc_res.awoc_slots_res.slots = {}
 	awoc_res.save_awoc()
 	awoc_editor.awoc_res = awoc_res

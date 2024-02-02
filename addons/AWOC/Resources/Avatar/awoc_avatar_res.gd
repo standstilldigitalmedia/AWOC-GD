@@ -1,8 +1,141 @@
-extends Node
+@tool
+class_name AwocAvatarRes extends Resource
 
+const MESH_EXISTS = 1
+const MESH_DOES_NOT_EXIST = 2
+const SKELETON_DOES_NOT_EXIST = 3
+const INVALID_PATH = 4
+const NO_SURFACE_FOUND = 5
+const SUCCESS = 10
 
+@export var skeleton_array: Array
+@export var awoc_mesh_res_dictionary: Dictionary
+var avatar: Node3D
+var skeleton: Skeleton3D
+var mesh_dictionary: Dictionary
 
+func recursive_get_skeleton(sourceObj: Node) -> Skeleton3D:
+	if sourceObj is Skeleton3D:
+		return sourceObj
+	for child: Node in sourceObj.get_children():
+		var skele: Skeleton3D = recursive_get_skeleton(child)
+		if skele != null:
+			return skele
+	return null
 
+func add_skeleton_to_res(source_skeleton: Skeleton3D) -> int:
+	var bone_count = source_skeleton.get_bone_count()
+	skeleton_array = []
+	for a in bone_count:
+		var bone_res: AwocBoneRes = AwocBoneRes.new()
+		bone_res.serialize_bone(source_skeleton, a)
+		skeleton_array.append(bone_res)
+	return SUCCESS
+	
+func create_skeleton() -> int:
+	var bone_count: int = skeleton_array.size()
+	skeleton = Skeleton3D.new()
+	for a in bone_count:
+		skeleton.add_bone(skeleton_array[a].bone_name)	
+		skeleton.set_bone_global_pose_override(a, skeleton_array[a].global_pose_override,1)
+		skeleton.set_bone_parent(a, skeleton_array[a].bone_parent)
+		skeleton.set_bone_pose_position(a, skeleton_array[a].bone_position)
+		skeleton.set_bone_pose_scale(a, skeleton_array[a].bone_scale)
+		skeleton.set_bone_pose_rotation(a, skeleton_array[a].bone_rotation)
+		skeleton.set_bone_rest(a, skeleton_array[a].bone_rest)
+	return SUCCESS
+
+func add_mesh_to_res(source_mesh: MeshInstance3D, override: bool) -> int:
+	if skeleton_array == null or skeleton_array.size() < 1:
+		return SKELETON_DOES_NOT_EXIST
+	if !override and awoc_mesh_res_dictionary.has(source_mesh.name):
+		return MESH_EXISTS
+	var surface_count: int = source_mesh.mesh.get_surface_count()
+	if surface_count < 1:
+		return NO_SURFACE_FOUND
+	var surface_arrays: Array
+	for a in surface_count:
+		surface_arrays.append(source_mesh.mesh.surface_get_arrays(a))
+	awoc_mesh_res_dictionary[source_mesh.name] = surface_arrays
+	return SUCCESS
+		
+func create_mesh(mesh_name: String) -> int:
+	if !awoc_mesh_res_dictionary.has(mesh_name):
+		return MESH_DOES_NOT_EXIST
+	var new_mesh: ArrayMesh = ArrayMesh.new()
+	var surface_count = awoc_mesh_res_dictionary[mesh_name].size()
+	if surface_count < 1:
+		return NO_SURFACE_FOUND
+	for a in surface_count:
+		new_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,awoc_mesh_res_dictionary[mesh_name][a])
+	var new_mesh_3d: MeshInstance3D = MeshInstance3D.new()
+	skeleton.add_child(new_mesh_3d)
+	new_mesh_3d.mesh = new_mesh
+	new_mesh_3d.skeleton = NodePath("..")
+	mesh_dictionary[mesh_name] = new_mesh_3d
+	return SUCCESS
+
+func delete_mesh_from_res(mesh_to_delete: String) -> int:
+	if mesh_to_delete.length() < 1:
+		return INVALID_PATH
+	if awoc_mesh_res_dictionary == null or !awoc_mesh_res_dictionary.has(mesh_to_delete):
+		return MESH_DOES_NOT_EXIST
+	awoc_mesh_res_dictionary.erase(mesh_to_delete)
+	return SUCCESS
+	
+func delete_mesh_from_skeleton(mesh_to_delete: String) -> int:
+	if mesh_to_delete.length() < 1:
+		return INVALID_PATH
+	if awoc_mesh_res_dictionary == null or !mesh_dictionary.has(mesh_to_delete):
+		return MESH_DOES_NOT_EXIST
+	mesh_dictionary[mesh_to_delete].queue_free()
+	mesh_dictionary.erase(mesh_to_delete)
+	return SUCCESS
+	
+func rename_mesh(mesh_name: String, new_name: String, override: bool) -> int:
+	if !awoc_mesh_res_dictionary.has(mesh_name):
+		return MESH_DOES_NOT_EXIST
+	if !override and awoc_mesh_res_dictionary.has(new_name):
+		return MESH_EXISTS
+	awoc_mesh_res_dictionary[new_name] = awoc_mesh_res_dictionary[mesh_name]
+	awoc_mesh_res_dictionary.erase(mesh_name)
+	return SUCCESS
+
+func add_avatar_to_res(path: String) -> int:
+	if path.length() < 1:
+		return INVALID_PATH
+	var avatar_scene: PackedScene = load(path)
+	var avatar: Node3D = avatar_scene.instantiate()
+	var new_skeleton: Skeleton3D = recursive_get_skeleton(avatar)
+	add_skeleton_to_res(new_skeleton)
+	for child in new_skeleton.get_children():
+		if child is MeshInstance3D:
+			add_mesh_to_res(child,true)
+	return SUCCESS
+	
+func create_avatar(mesh_list: Array):
+	if skeleton_array == null or skeleton_array.size() < 1:
+		return
+	if avatar != null:
+		avatar.queue_free()
+		avatar = null
+		skeleton = null
+		mesh_dictionary = {}
+	create_skeleton()
+	if mesh_list.size() > 0:
+		for mesh_name in mesh_list:
+			create_mesh(mesh_name)
+	avatar = Node3D.new()
+	avatar.add_child(skeleton)
+	
+func clear_avatar():
+	if skeleton != null:
+		for child in skeleton.get_children():
+			child.queue_free()
+	
+func get_avatar():
+	return avatar
+	
 """namespace AWOC
 {
 	public class SerializedBone

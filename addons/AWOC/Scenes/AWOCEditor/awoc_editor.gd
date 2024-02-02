@@ -24,7 +24,7 @@ class_name AwocEditor extends Control
 @export var animations_button: Button
 
 # The right pane where preview panes are parented
-@export var rightPane: ScrollContainer
+@export var rightPane: ColorRect
 # The center pane where the regular panes are parented
 #@export var mainContainer: HBoxContainer
 

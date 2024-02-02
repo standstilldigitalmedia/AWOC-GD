@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://cg741telb0c24" path="res://addons/AWOC/Images/Remove.svg" id="3_i6dg1"]
 
 [node name="HideSlotContainer" type="VBoxContainer" node_paths=PackedStringArray("hide_slot_label", "confirm_delete_dialog")]
-custom_minimum_size = Vector2(220, 0)
+custom_minimum_size = Vector2(200, 0)
 anchors_preset = -1
 anchor_right = 0.191
 anchor_bottom = 0.04
@@ -17,9 +17,10 @@ confirm_delete_dialog = NodePath("HideSlotInnerContainer/ConfirmDeleteHideSlotDi
 
 [node name="HideSlotInnerContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
+theme_override_constants/separation = 10
 
 [node name="HideSlotLabel" type="Label" parent="HideSlotInnerContainer"]
-custom_minimum_size = Vector2(210, 0)
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 theme = ExtResource("2_oab3s")
 text = "Test Slot"

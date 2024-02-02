@@ -7,63 +7,59 @@
 [ext_resource type="Script" path="res://addons/AWOC/ControlOverrides/single_mesh_control_override.gd" id="4_gf0mb"]
 
 [node name="Slots" type="MarginContainer" node_paths=PackedStringArray("add_slot_name_edit", "slots_scroll_container", "confirm_duplicate_slot_dialog")]
-custom_minimum_size = Vector2(285, 470)
+custom_minimum_size = Vector2(265, 400)
 anchors_preset = -1
-anchor_right = 0.247
-anchor_bottom = 0.725
-offset_right = 0.455994
-offset_bottom = 0.199982
+anchor_right = 0.239
+anchor_bottom = 0.673
+offset_right = -0.328003
+offset_bottom = -0.104034
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 script = ExtResource("1_2wfar")
 slot_container = ExtResource("2_foo34")
-add_slot_name_edit = NodePath("HBoxContainer/MainContainer/AddSlotContainer/AddSlotNameEdit")
-slots_scroll_container = NodePath("HBoxContainer/MainContainer/SlotsScrollBackground/SlotsScrollMarginContainer/SlotsScrollContainer/SlotsContainer")
-confirm_duplicate_slot_dialog = NodePath("HBoxContainer/MainContainer/ConfirmDuplicateSlotDialog")
+add_slot_name_edit = NodePath("MainContainer/AddSlotContainer/AddSlotNameEdit")
+slots_scroll_container = NodePath("MainContainer/SlotsScrollBackground/SlotsScrollMarginContainer/SlotsScrollContainer/SlotsContainer")
+confirm_duplicate_slot_dialog = NodePath("MainContainer/ConfirmDuplicateSlotDialog")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-custom_minimum_size = Vector2(500, 0)
-layout_mode = 2
-
-[node name="MainContainer" type="VBoxContainer" parent="HBoxContainer"]
+[node name="MainContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="HeadLabel" type="Label" parent="HBoxContainer/MainContainer"]
+[node name="HeadLabel" type="Label" parent="MainContainer"]
 layout_mode = 2
 theme = ExtResource("2_kp14s")
 text = "Slots"
 horizontal_alignment = 1
 
-[node name="AddSlotContainer" type="HBoxContainer" parent="HBoxContainer/MainContainer"]
+[node name="AddSlotContainer" type="HBoxContainer" parent="MainContainer"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="AddSlotNameEdit" type="LineEdit" parent="HBoxContainer/MainContainer/AddSlotContainer"]
-custom_minimum_size = Vector2(240, 0)
+[node name="AddSlotNameEdit" type="LineEdit" parent="MainContainer/AddSlotContainer"]
+custom_minimum_size = Vector2(230, 0)
 layout_mode = 2
 theme = ExtResource("2_kp14s")
 placeholder_text = "Add Slot"
 script = ExtResource("4_gf0mb")
 
-[node name="AddSlotButton" type="Button" parent="HBoxContainer/MainContainer/AddSlotContainer"]
+[node name="AddSlotButton" type="Button" parent="MainContainer/AddSlotContainer"]
 custom_minimum_size = Vector2(23, 0)
 layout_mode = 2
 theme = ExtResource("2_kp14s")
 icon = ExtResource("3_qhkw5")
 icon_alignment = 1
 
-[node name="SlotsScrollBackground" type="ColorRect" parent="HBoxContainer/MainContainer"]
-custom_minimum_size = Vector2(0, 381)
+[node name="SlotsScrollBackground" type="ColorRect" parent="MainContainer"]
+custom_minimum_size = Vector2(265, 270)
 layout_mode = 2
-color = Color(1, 1, 1, 0.0392157)
+color = Color(1, 1, 1, 0.0784314)
 
-[node name="SlotsScrollMarginContainer" type="MarginContainer" parent="HBoxContainer/MainContainer/SlotsScrollBackground"]
-custom_minimum_size = Vector2(273, 200)
+[node name="SlotsScrollMarginContainer" type="MarginContainer" parent="MainContainer/SlotsScrollBackground"]
+custom_minimum_size = Vector2(265, 270)
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -73,18 +69,18 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="SlotsScrollContainer" type="ScrollContainer" parent="HBoxContainer/MainContainer/SlotsScrollBackground/SlotsScrollMarginContainer"]
+[node name="SlotsScrollContainer" type="ScrollContainer" parent="MainContainer/SlotsScrollBackground/SlotsScrollMarginContainer"]
 layout_mode = 2
 
-[node name="SlotsContainer" type="VBoxContainer" parent="HBoxContainer/MainContainer/SlotsScrollBackground/SlotsScrollMarginContainer/SlotsScrollContainer"]
-custom_minimum_size = Vector2(263, 150)
+[node name="SlotsContainer" type="VBoxContainer" parent="MainContainer/SlotsScrollBackground/SlotsScrollMarginContainer/SlotsScrollContainer"]
+custom_minimum_size = Vector2(255, 260)
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="ConfirmDuplicateSlotDialog" type="ConfirmationDialog" parent="HBoxContainer/MainContainer"]
+[node name="ConfirmDuplicateSlotDialog" type="ConfirmationDialog" parent="MainContainer"]
 initial_position = 2
 size = Vector2i(250, 150)
 theme = ExtResource("2_kp14s")
 
-[connection signal="pressed" from="HBoxContainer/MainContainer/AddSlotContainer/AddSlotButton" to="." method="_on_add_slot_button_pressed"]
-[connection signal="confirmed" from="HBoxContainer/MainContainer/ConfirmDuplicateSlotDialog" to="." method="_on_confirm_duplicate_slot_dialog_confirmed"]
+[connection signal="pressed" from="MainContainer/AddSlotContainer/AddSlotButton" to="." method="_on_add_slot_button_pressed"]
+[connection signal="confirmed" from="MainContainer/ConfirmDuplicateSlotDialog" to="." method="_on_confirm_duplicate_slot_dialog_confirmed"]

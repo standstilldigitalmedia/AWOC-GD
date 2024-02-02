@@ -9,7 +9,7 @@ class_name AwocBoneRes extends Resource
 @export var bone_rotation: Quaternion
 @export var bone_rest: Transform3D
 
-func _init(source_skeleton: Skeleton3D, index: int):
+func serialize_bone(source_skeleton: Skeleton3D, index: int):
 	bone_name = source_skeleton.get_bone_name(index)
 	global_pose_override = source_skeleton.get_bone_global_pose_override(index)
 	bone_parent = source_skeleton.get_bone_parent(index)

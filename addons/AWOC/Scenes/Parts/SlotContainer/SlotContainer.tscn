@@ -12,9 +12,9 @@
 [node name="SlotContainer" type="VBoxContainer" node_paths=PackedStringArray("slot_button", "slot_controls_container", "slot_name_edit", "show_button", "hide_button", "hide_slot_container", "hide_slot_select", "add_hide_slot_button", "hide_slot_scroll_container", "confirm_save_dialog", "confirm_delete_dialog")]
 custom_minimum_size = Vector2(235, 0)
 anchors_preset = -1
-anchor_right = 0.205
+anchor_right = 0.214
 anchor_bottom = 0.313
-offset_right = -0.160019
+offset_right = -10.528
 offset_bottom = 0.17598
 theme_override_constants/separation = 10
 script = ExtResource("1_kx0k4")
@@ -41,7 +41,7 @@ text_overrun_behavior = 1
 layout_mode = 2
 
 [node name="SlotNameEdit" type="LineEdit" parent="SlotControlsContainer"]
-custom_minimum_size = Vector2(175, 0)
+custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
 theme = ExtResource("3_1bqud")
 
@@ -84,6 +84,7 @@ layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 5
@@ -100,6 +101,7 @@ horizontal_alignment = 1
 
 [node name="HideSlotSelectSlot" type="HBoxContainer" parent="HideSlotsContainer/HideSlotsOuterContainer/HideSlotsInnerContainer"]
 layout_mode = 2
+theme_override_constants/separation = 20
 
 [node name="HideSlotSelect" type="OptionButton" parent="HideSlotsContainer/HideSlotsOuterContainer/HideSlotsInnerContainer/HideSlotSelectSlot"]
 custom_minimum_size = Vector2(198, 0)
@@ -116,7 +118,7 @@ icon = ExtResource("8_gwhr1")
 icon_alignment = 1
 
 [node name="HideSlotsScrollBackground" type="ColorRect" parent="HideSlotsContainer/HideSlotsOuterContainer/HideSlotsInnerContainer"]
-custom_minimum_size = Vector2(0, 100)
+custom_minimum_size = Vector2(0, 105)
 layout_mode = 2
 color = Color(1, 1, 1, 0.117647)
 
@@ -130,7 +132,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="HideSlotsMarginContainer" type="MarginContainer" parent="HideSlotsContainer/HideSlotsOuterContainer/HideSlotsInnerContainer/HideSlotsScrollBackground/HideSlotsScrollContainer"]
-custom_minimum_size = Vector2(226, 100)
+custom_minimum_size = Vector2(240, 100)
 layout_mode = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5

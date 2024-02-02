@@ -111,10 +111,6 @@ icon = ExtResource("11_gq7ou")
 icon_alignment = 1
 expand_icon = true
 
-[connection signal="button_down" from="CenterContainer/GridContainer/RotateLeft" to="." method="_on_rotate_left_button_down"]
-[connection signal="button_up" from="CenterContainer/GridContainer/RotateLeft" to="." method="on_button_up"]
-[connection signal="button_down" from="CenterContainer/GridContainer/Up" to="." method="_on_up_button_down"]
-[connection signal="button_up" from="CenterContainer/GridContainer/Up" to="." method="on_button_up"]
 [connection signal="button_down" from="CenterContainer/GridContainer/RotateRight" to="." method="_on_rotate_right_button_down"]
 [connection signal="button_up" from="CenterContainer/GridContainer/RotateRight" to="." method="on_button_up"]
 [connection signal="button_down" from="CenterContainer/GridContainer/Left" to="." method="_on_left_button_down"]

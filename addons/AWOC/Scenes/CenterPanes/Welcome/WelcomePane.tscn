@@ -1,61 +1,67 @@
-[gd_scene load_steps=3 format=3 uid="uid://hd74w6jps4nh"]
+[gd_scene load_steps=4 format=3 uid="uid://hd74w6jps4nh"]
 
 [ext_resource type="Script" path="res://addons/AWOC/Scenes/CenterPanes/Welcome/awoc_welcome_pane.gd" id="1_57nee"]
 [ext_resource type="Theme" uid="uid://drffev6w87ljh" path="res://addons/AWOC/Themes/main_theme.tres" id="2_c5jlm"]
+[ext_resource type="PackedScene" uid="uid://d1q0uhimufw7w" path="res://test_model.glb" id="3_bix42"]
 
 [node name="Welcome" type="MarginContainer" node_paths=PackedStringArray("new_awoc_dialog", "load_awoc_dialog")]
-custom_minimum_size = Vector2(500, 550)
+custom_minimum_size = Vector2(300, 400)
 anchors_preset = -1
-anchor_right = 0.434
+anchor_right = 0.26
 anchor_bottom = 0.849
-offset_right = -499.968
+offset_right = -299.52
 offset_bottom = -550.152
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 script = ExtResource("1_57nee")
-new_awoc_dialog = NodePath("HBoxContainer/MainContainer/NewAWOCDialog")
-load_awoc_dialog = NodePath("HBoxContainer/MainContainer/LoadAWOCDialog")
+new_awoc_dialog = NodePath("MarginContainer/HBoxContainer/MainContainer/NewAWOCDialog")
+load_awoc_dialog = NodePath("MarginContainer/HBoxContainer/MainContainer/LoadAWOCDialog")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 75
+theme_override_constants/margin_top = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 
-[node name="MainContainer" type="VBoxContainer" parent="HBoxContainer"]
+[node name="MainContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="HeadLabel" type="Label" parent="HBoxContainer/MainContainer"]
+[node name="HeadLabel" type="Label" parent="MarginContainer/HBoxContainer/MainContainer"]
 layout_mode = 2
 theme = ExtResource("2_c5jlm")
 text = "Welcome"
 horizontal_alignment = 1
 
-[node name="CenterContainer" type="CenterContainer" parent="HBoxContainer/MainContainer"]
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer/HBoxContainer/MainContainer"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/MainContainer/CenterContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/MainContainer/CenterContainer"]
 custom_minimum_size = Vector2(150, 23)
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="NewAWOCButton" type="Button" parent="HBoxContainer/MainContainer/CenterContainer/VBoxContainer"]
+[node name="NewAWOCButton" type="Button" parent="MarginContainer/HBoxContainer/MainContainer/CenterContainer/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("2_c5jlm")
 text = "New AWOC"
 
-[node name="LoadAWOCButton" type="Button" parent="HBoxContainer/MainContainer/CenterContainer/VBoxContainer"]
+[node name="LoadAWOCButton" type="Button" parent="MarginContainer/HBoxContainer/MainContainer/CenterContainer/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("2_c5jlm")
 text = "Load AWOC"
 
-[node name="NewAWOCDialog" type="FileDialog" parent="HBoxContainer/MainContainer"]
+[node name="NewAWOCDialog" type="FileDialog" parent="MarginContainer/HBoxContainer/MainContainer"]
 title = "New AWOC"
 initial_position = 2
 size = Vector2i(400, 300)
 theme = ExtResource("2_c5jlm")
 filters = PackedStringArray("*.res ; Resource")
 
-[node name="LoadAWOCDialog" type="FileDialog" parent="HBoxContainer/MainContainer"]
+[node name="LoadAWOCDialog" type="FileDialog" parent="MarginContainer/HBoxContainer/MainContainer"]
 title = "Open a File"
 initial_position = 2
 size = Vector2i(400, 300)
@@ -64,7 +70,11 @@ ok_button_text = "Open"
 file_mode = 0
 filters = PackedStringArray("*.res ; Resource")
 
-[connection signal="pressed" from="HBoxContainer/MainContainer/CenterContainer/VBoxContainer/NewAWOCButton" to="." method="_on_new_awoc_button_pressed"]
-[connection signal="pressed" from="HBoxContainer/MainContainer/CenterContainer/VBoxContainer/LoadAWOCButton" to="." method="_on_load_awoc_button_pressed"]
-[connection signal="file_selected" from="HBoxContainer/MainContainer/NewAWOCDialog" to="." method="_on_new_awoc_dialog_file_selected"]
-[connection signal="file_selected" from="HBoxContainer/MainContainer/LoadAWOCDialog" to="." method="_on_load_awoc_dialog_file_selected"]
+[node name="test_model" parent="." instance=ExtResource("3_bix42")]
+
+[connection signal="pressed" from="MarginContainer/HBoxContainer/MainContainer/CenterContainer/VBoxContainer/NewAWOCButton" to="." method="_on_new_awoc_button_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/MainContainer/CenterContainer/VBoxContainer/LoadAWOCButton" to="." method="_on_load_awoc_button_pressed"]
+[connection signal="file_selected" from="MarginContainer/HBoxContainer/MainContainer/NewAWOCDialog" to="." method="_on_new_awoc_dialog_file_selected"]
+[connection signal="file_selected" from="MarginContainer/HBoxContainer/MainContainer/LoadAWOCDialog" to="." method="_on_load_awoc_dialog_file_selected"]
+
+[editable path="test_model"]

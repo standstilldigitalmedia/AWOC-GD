@@ -7,15 +7,6 @@ signal delete_hide_slot(hs_name: String) # In response to the ConfirmDeleteDialo
 @export var confirm_delete_dialog: ConfirmationDialog #displayed when the delete button is pressed. Confirms if this hide slot should be deleted
 var hide_slot_name: String #the name of the hide slot that this HideSlotContainer manages
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
 # <summary>
 # Sets the name of this hide slot on both the hide slot label and in the property hide_slot_name
 # </summary>

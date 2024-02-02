@@ -1,0 +1,147 @@
+[gd_scene load_steps=13 format=3 uid="uid://cogmdovrms887"]
+
+[ext_resource type="Theme" uid="uid://drffev6w87ljh" path="res://addons/AWOC/Themes/main_theme.tres" id="1_4v0le"]
+[ext_resource type="Script" path="res://addons/AWOC/Scenes/CenterPanes/Meshes/awoc_mesh_preview.gd" id="1_vmf7k"]
+[ext_resource type="Texture2D" uid="uid://5a4bi2dff8dk" path="res://addons/AWOC/Images/RotateLeft.svg" id="2_b4mvl"]
+[ext_resource type="Texture2D" uid="uid://b38kjo75amqwy" path="res://addons/AWOC/Images/ArrowUp.svg" id="3_t4cip"]
+[ext_resource type="Texture2D" uid="uid://ddrmclnfoer4s" path="res://addons/AWOC/Images/RotateRight.svg" id="4_q7pq6"]
+[ext_resource type="Texture2D" uid="uid://c4dbqhgevxie6" path="res://addons/AWOC/Images/ArrowLeft.svg" id="5_aod31"]
+[ext_resource type="Texture2D" uid="uid://dy8yvja4x1nsr" path="res://addons/AWOC/Images/CenterView.svg" id="6_8j8ba"]
+[ext_resource type="Texture2D" uid="uid://t35u6qnqssdk" path="res://addons/AWOC/Images/ArrowRight.svg" id="7_1oels"]
+[ext_resource type="Texture2D" uid="uid://ctyltspjtpj25" path="res://addons/AWOC/Images/CurveConstant.svg" id="8_wisk0"]
+[ext_resource type="Texture2D" uid="uid://dpfqlxlqoeppx" path="res://addons/AWOC/Images/ArrowDown.svg" id="9_5ypdp"]
+[ext_resource type="Texture2D" uid="uid://cnuepoi4ynvoy" path="res://addons/AWOC/Images/Add.svg" id="10_vk5yq"]
+
+[sub_resource type="Environment" id="Environment_3g2qc"]
+background_mode = 1
+
+[node name="MeshPreview" type="ColorRect" node_paths=PackedStringArray("main_camera", "subject")]
+custom_minimum_size = Vector2(300, 345)
+anchors_preset = -1
+anchor_right = 0.26
+anchor_bottom = 0.532
+offset_right = 0.47998
+offset_bottom = 0.264008
+color = Color(1, 1, 1, 0.0392157)
+script = ExtResource("1_vmf7k")
+main_camera = NodePath("MarginContainer/VBoxContainer/CenterContainer/SubViewportContainer/SubViewport/Camera3D")
+subject = NodePath("MarginContainer/VBoxContainer/CenterContainer/SubViewportContainer/SubViewport/Subject")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+custom_minimum_size = Vector2(300, 335)
+layout_mode = 2
+theme_override_constants/separation = 19
+
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="MarginContainer/VBoxContainer/CenterContainer"]
+layout_mode = 2
+
+[node name="SubViewport" type="SubViewport" parent="MarginContainer/VBoxContainer/CenterContainer/SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(285, 200)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="MarginContainer/VBoxContainer/CenterContainer/SubViewportContainer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.91798)
+environment = SubResource("Environment_3g2qc")
+
+[node name="Subject" type="Node3D" parent="MarginContainer/VBoxContainer/CenterContainer/SubViewportContainer/SubViewport"]
+
+[node name="CenterContainer2" type="CenterContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer/CenterContainer2"]
+layout_mode = 2
+columns = 3
+
+[node name="RotateLeftButton" type="Button" parent="MarginContainer/VBoxContainer/CenterContainer2/GridContainer"]
+custom_minimum_size = Vector2(26, 26)
+layout_mode = 2
+theme = ExtResource("1_4v0le")
+icon = ExtResource("2_b4mvl")
+icon_alignment = 1
+
+[node name="UpButton" type="Button" parent="MarginContainer/VBoxContainer/CenterContainer2/GridContainer"]
+custom_minimum_size = Vector2(26, 26)
+layout_mode = 2
+theme = ExtResource("1_4v0le")
+icon = ExtResource("3_t4cip")
+icon_alignment = 1
+
+[node name="RotateRightButton" type="Button" parent="MarginContainer/VBoxContainer/CenterContainer2/GridContainer"]
+custom_minimum_size = Vector2(26, 26)
+layout_mode = 2
+theme = ExtResource("1_4v0le")
+icon = ExtResource("4_q7pq6")
+icon_alignment = 1
+
+[node name="LeftButton" type="Button" parent="MarginContainer/VBoxContainer/CenterContainer2/GridContainer"]
+custom_minimum_size = Vector2(26, 26)
+layout_mode = 2
+theme = ExtResource("1_4v0le")
+icon = ExtResource("5_aod31")
+icon_alignment = 1
+
+[node name="ResetButton" type="Button" parent="MarginContainer/VBoxContainer/CenterContainer2/GridContainer"]
+custom_minimum_size = Vector2(26, 26)
+layout_mode = 2
+theme = ExtResource("1_4v0le")
+icon = ExtResource("6_8j8ba")
+icon_alignment = 1
+
+[node name="RightButton" type="Button" parent="MarginContainer/VBoxContainer/CenterContainer2/GridContainer"]
+custom_minimum_size = Vector2(26, 26)
+layout_mode = 2
+theme = ExtResource("1_4v0le")
+icon = ExtResource("7_1oels")
+icon_alignment = 1
+
+[node name="ZoomOutButton" type="Button" parent="MarginContainer/VBoxContainer/CenterContainer2/GridContainer"]
+custom_minimum_size = Vector2(26, 26)
+layout_mode = 2
+theme = ExtResource("1_4v0le")
+icon = ExtResource("8_wisk0")
+icon_alignment = 1
+
+[node name="DownButton" type="Button" parent="MarginContainer/VBoxContainer/CenterContainer2/GridContainer"]
+custom_minimum_size = Vector2(26, 26)
+layout_mode = 2
+theme = ExtResource("1_4v0le")
+icon = ExtResource("9_5ypdp")
+icon_alignment = 1
+
+[node name="ZoomInButton" type="Button" parent="MarginContainer/VBoxContainer/CenterContainer2/GridContainer"]
+custom_minimum_size = Vector2(26, 26)
+layout_mode = 2
+theme = ExtResource("1_4v0le")
+icon = ExtResource("10_vk5yq")
+icon_alignment = 1
+
+[connection signal="button_down" from="MarginContainer/VBoxContainer/CenterContainer2/GridContainer/RotateLeftButton" to="." method="_on_rotate_left_button_button_down"]
+[connection signal="button_up" from="MarginContainer/VBoxContainer/CenterContainer2/GridContainer/RotateLeftButton" to="." method="on_button_up"]
+[connection signal="button_down" from="MarginContainer/VBoxContainer/CenterContainer2/GridContainer/UpButton" to="." method="_on_up_button_button_down"]
+[connection signal="button_up" from="MarginContainer/VBoxContainer/CenterContainer2/GridContainer/UpButton" to="." method="on_button_up"]
+[connection signal="button_down" from="MarginContainer/VBoxContainer/CenterContainer2/GridContainer/RotateRightButton" to="." method="_on_rotate_right_button_button_down"]
+[connection signal="button_up" from="MarginContainer/VBoxContainer/CenterContainer2/GridContainer/RotateRightButton" to="." method="on_button_up"]
+[connection signal="button_down" from="MarginContainer/VBoxContainer/CenterContainer2/GridContainer/LeftButton" to="." method="_on_left_button_button_down"]
+[connection signal="button_up" from="MarginContainer/VBoxContainer/CenterContainer2/GridContainer/LeftButton" to="." method="on_button_up"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/CenterContainer2/GridContainer/ResetButton" to="." method="_on_reset_button_pressed"]
+[connection signal="button_down" from="MarginContainer/VBoxContainer/CenterContainer2/GridContainer/RightButton" to="." method="_on_right_button_button_down"]
+[connection signal="button_up" from="MarginContainer/VBoxContainer/CenterContainer2/GridContainer/RightButton" to="." method="on_button_up"]
+[connection signal="button_down" from="MarginContainer/VBoxContainer/CenterContainer2/GridContainer/ZoomOutButton" to="." method="_on_zoom_out_button_button_down"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/CenterContainer2/GridContainer/ZoomOutButton" to="." method="on_button_up"]
+[connection signal="button_down" from="MarginContainer/VBoxContainer/CenterContainer2/GridContainer/DownButton" to="." method="_on_down_button_button_down"]
+[connection signal="button_up" from="MarginContainer/VBoxContainer/CenterContainer2/GridContainer/DownButton" to="." method="on_button_up"]
+[connection signal="button_down" from="MarginContainer/VBoxContainer/CenterContainer2/GridContainer/ZoomInButton" to="." method="_on_zoom_in_button_button_down"]
+[connection signal="button_up" from="MarginContainer/VBoxContainer/CenterContainer2/GridContainer/ZoomInButton" to="." method="on_button_up"]

@@ -9,15 +9,65 @@ extends AwocCenterPaneBase
 @export var add_mesh_file_button: Button
 
 @export var mesh_list_container: VBoxContainer
+@export var mesh_container_scene: PackedScene
+
+@export var load_mesh_dialog: FileDialog
+
+@export var subject: Node3D
+
+func populate_mesh_list_container():
+	for child in mesh_list_container.get_children():
+		child.queue_free()
+	awoc_res.awoc_avatar_res.clear_avatar()
+	if awoc_res == null or awoc_res.awoc_avatar_res == null or awoc_res.awoc_avatar_res.awoc_mesh_res_dictionary == null:
+		return
+	for mesh_name in awoc_res.awoc_avatar_res.awoc_mesh_res_dictionary:
+		var mesh_container = mesh_container_scene.instantiate()
+		mesh_container.set_mesh_name(mesh_name)
+		mesh_container.awoc_res = awoc_res
+		mesh_list_container.add_child(mesh_container)
+		
+func get_name_from_path(path: String) -> String:
+	var split_string = path.split("/")
+	return split_string[split_string.size() -1]
 
 func _on_add_single_mesh_button_pressed():
-	pass # Replace with function body.
+	var path: String = single_mesh_line_edit.text
+	if path.length() < 1:
+		printerr("Must enter a valid path.")
+		return
+	awoc_res.awoc_avatar_res.add_mesh_to_res(get_node(path),true)
+	awoc_res.save_awoc()
+	populate_mesh_list_container()
+	single_mesh_line_edit.text = ""
 
 func _on_mesh_file_browse_button_pressed():
-	pass # Replace with function body.
-
+	load_mesh_dialog.clear_filters()
+	load_mesh_dialog.add_filter("*.glb", "GL Transmission Format Binary file")
+	load_mesh_dialog.current_dir = "/"
+	load_mesh_dialog.visible = true
+	
 func _on_add_mesh_file_button_pressed():
-	pass # Replace with function body.
+	awoc_res.awoc_avatar_res.add_avatar_to_res(mesh_file_line_edit.text)
+	awoc_res.save_awoc()
+	mesh_file_line_edit.text = ""
+	populate_mesh_list_container()
+	
+func _on_load_mesh_dialog_file_selected(path):
+	mesh_file_line_edit.text = path
+	
+func init_panel(editor: AwocEditor):
+	awoc_editor = editor
+	awoc_res = editor.awoc_res
+	populate_mesh_list_container()
+	awoc_res.awoc_avatar_res.create_avatar([])
+	for child in subject.get_children():
+		child.queue_free()
+	if awoc_res.awoc_avatar_res.avatar != null:
+		awoc_res.awoc_avatar_res.avatar.position = Vector3.ZERO
+		awoc_res.awoc_avatar_res.avatar.rotation = Vector3.ZERO
+		awoc_res.awoc_avatar_res.avatar.scale = Vector3.ONE
+		subject.add_child(awoc_res.awoc_avatar_res.avatar)
 	
 """namespace AWOC
 {
@@ -175,3 +225,6 @@ func _on_load_mesh_dialog_file_selected(path):
 	awoc_editor.awoc_obj.init_source_avatar(path)
 	awoc_editor.save_current_awoc()
 	populate_mesh_list_container()*/"""
+
+
+

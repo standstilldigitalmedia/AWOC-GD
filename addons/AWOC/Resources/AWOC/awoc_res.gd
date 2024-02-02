@@ -4,8 +4,7 @@ class_name AwocRes extends Resource
 @export var awoc_name: String
 @export var awoc_path: String
 @export var awoc_slots_res: AwocSlotsRes 
-@export var awoc_skeleton_res: AwocSkeletonRes
-@export var awoc_mesh_res_arrray: Array
+@export var awoc_avatar_res: AwocAvatarRes
 #@export var AvatarRes awocAvatarRes;
 #@export var MaterialsRes awocMaterialRes;
 
