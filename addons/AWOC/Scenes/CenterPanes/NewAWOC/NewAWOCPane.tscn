@@ -1,0 +1,85 @@
+[gd_scene load_steps=4 format=3 uid="uid://dl7ud42xme1uj"]
+
+[ext_resource type="Script" path="res://addons/AWOC/Scenes/CenterPanes/NewAWOC/new_awoc_pane.gd" id="1_j4dl0"]
+[ext_resource type="Theme" uid="uid://drffev6w87ljh" path="res://addons/AWOC/Themes/main_theme.tres" id="2_w6kfk"]
+[ext_resource type="Texture2D" uid="uid://ck44qw1l0nk63" path="res://addons/AWOC/Images/Folder.svg" id="3_mmgov"]
+
+[node name="NewAWOC" type="MarginContainer" node_paths=PackedStringArray("awoc_name_line_edit", "asset_path_line_edit", "create_awoc_button", "asset_creation_file_dialog")]
+custom_minimum_size = Vector2(275, 436)
+anchors_preset = -1
+anchor_right = 0.239
+anchor_bottom = 0.673
+offset_right = -235.328
+offset_bottom = -396.104
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+script = ExtResource("1_j4dl0")
+awoc_name_line_edit = NodePath("VBoxContainer/HBoxContainer/AWOCNameLineEdit")
+asset_path_line_edit = NodePath("VBoxContainer/HBoxContainer2/AssetPathLineEdit")
+create_awoc_button = NodePath("VBoxContainer/CenterContainer/CreateAWOCButton")
+asset_creation_file_dialog = NodePath("AssetCreationFileDialog")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_w6kfk")
+text = "New Awoc"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="AWOCNameLineEdit" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(230, 0)
+layout_mode = 2
+tooltip_text = "A unique name for your new AWOC"
+theme = ExtResource("2_w6kfk")
+placeholder_text = "AWOC Name"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="AssetPathLineEdit" type="LineEdit" parent="VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(230, 0)
+layout_mode = 2
+tooltip_text = "When the new AWOC resource file is created, this path will 
+be stored and used for asset creation only. If you make 
+changes to the file structure, you will need to change this 
+path in the AWOC resource before creating new assets for 
+this AWOC."
+theme = ExtResource("2_w6kfk")
+placeholder_text = "Asset Creation Path"
+
+[node name="DirectoryBrowseButton" type="Button" parent="VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(23, 0)
+layout_mode = 2
+theme = ExtResource("2_w6kfk")
+icon = ExtResource("3_mmgov")
+icon_alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="CreateAWOCButton" type="Button" parent="VBoxContainer/CenterContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme = ExtResource("2_w6kfk")
+text = "Create AWOC"
+
+[node name="AssetCreationFileDialog" type="FileDialog" parent="."]
+title = "Open a Directory"
+initial_position = 2
+size = Vector2i(400, 300)
+theme = ExtResource("2_w6kfk")
+ok_button_text = "Select Current Folder"
+file_mode = 2
+
+[connection signal="pressed" from="VBoxContainer/HBoxContainer2/DirectoryBrowseButton" to="." method="_on_directory_browse_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/CenterContainer/CreateAWOCButton" to="." method="_on_create_awoc_button_pressed"]
+[connection signal="dir_selected" from="AssetCreationFileDialog" to="." method="_on_file_dialog_dir_selected"]

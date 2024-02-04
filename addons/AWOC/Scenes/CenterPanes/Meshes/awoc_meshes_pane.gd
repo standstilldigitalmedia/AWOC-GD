@@ -1,5 +1,5 @@
 @tool
-extends AwocCenterPaneBase
+extends AWOCCenterPaneBase
 
 @export var single_mesh_line_edit: LineEdit
 @export var add_single_mesh_button: Button
@@ -13,15 +13,17 @@ extends AwocCenterPaneBase
 
 @export var load_mesh_dialog: FileDialog
 
-@export var subject: Node3D
+
+@export var mesh_preview_scene: PackedScene
+@export var main_container: HBoxContainer
 
 func populate_mesh_list_container():
 	for child in mesh_list_container.get_children():
 		child.queue_free()
-	awoc_res.awoc_avatar_res.clear_avatar()
-	if awoc_res == null or awoc_res.awoc_avatar_res == null or awoc_res.awoc_avatar_res.awoc_mesh_res_dictionary == null:
+	#awoc_res.avatar_res.clear_avatar()
+	if awoc_res == null or awoc_res.avatar_res == null or awoc_res.avatar_res.mesh_ids == null:
 		return
-	for mesh_name in awoc_res.awoc_avatar_res.awoc_mesh_res_dictionary:
+	for mesh_name in awoc_res.avatar_res.mesh_ids:
 		var mesh_container = mesh_container_scene.instantiate()
 		mesh_container.set_mesh_name(mesh_name)
 		mesh_container.awoc_res = awoc_res
@@ -36,7 +38,7 @@ func _on_add_single_mesh_button_pressed():
 	if path.length() < 1:
 		printerr("Must enter a valid path.")
 		return
-	awoc_res.awoc_avatar_res.add_mesh_to_res(get_node(path),true)
+	awoc_res.avatar_res.add_mesh_to_res(get_node(path),true)
 	awoc_res.save_awoc()
 	populate_mesh_list_container()
 	single_mesh_line_edit.text = ""
@@ -48,7 +50,9 @@ func _on_mesh_file_browse_button_pressed():
 	load_mesh_dialog.visible = true
 	
 func _on_add_mesh_file_button_pressed():
-	awoc_res.awoc_avatar_res.add_avatar_to_res(mesh_file_line_edit.text)
+	var avatar_file = load(mesh_file_line_edit.text)
+	var avatar_obj: Node3D = avatar_file.instantiate()
+	awoc_res.avatar_res.serialize_avatar(avatar_obj,awoc_res.asset_creation_path)
 	awoc_res.save_awoc()
 	mesh_file_line_edit.text = ""
 	populate_mesh_list_container()
@@ -56,18 +60,21 @@ func _on_add_mesh_file_button_pressed():
 func _on_load_mesh_dialog_file_selected(path):
 	mesh_file_line_edit.text = path
 	
-func init_panel(editor: AwocEditor):
+func init_pane(editor: AWOCEditor):
 	awoc_editor = editor
 	awoc_res = editor.awoc_res
-	populate_mesh_list_container()
-	awoc_res.awoc_avatar_res.create_avatar([])
-	for child in subject.get_children():
+	var mesh_preview = mesh_preview_scene.instantiate()
+	main_container.add_child(mesh_preview)
+	for child in mesh_preview.subject.get_children():
 		child.queue_free()
-	if awoc_res.awoc_avatar_res.avatar != null:
-		awoc_res.awoc_avatar_res.avatar.position = Vector3.ZERO
-		awoc_res.awoc_avatar_res.avatar.rotation = Vector3.ZERO
-		awoc_res.awoc_avatar_res.avatar.scale = Vector3.ONE
-		subject.add_child(awoc_res.awoc_avatar_res.avatar)
+	if awoc_res.avatar_res.skeleton_id != null and awoc_res.avatar_res.skeleton_id > 0:
+		awoc_res.avatar_res.avatar = null
+		awoc_res.avatar_res.deserialize_avatar([])
+		awoc_res.avatar_res.avatar.position = Vector3.ZERO
+		awoc_res.avatar_res.avatar.rotation = Vector3.ZERO
+		awoc_res.avatar_res.avatar.scale = Vector3.ONE
+		mesh_preview.subject.add_child(awoc_res.avatar_res.avatar)
+	populate_mesh_list_container()
 	
 """namespace AWOC
 {

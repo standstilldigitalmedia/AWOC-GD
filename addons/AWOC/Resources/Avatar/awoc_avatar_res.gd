@@ -1,51 +1,233 @@
 @tool
-class_name AwocAvatarRes extends Resource
+class_name AWOCAvatarRes extends Resource
 
-const MESH_EXISTS = 1
-const MESH_DOES_NOT_EXIST = 2
-const SKELETON_DOES_NOT_EXIST = 3
-const INVALID_PATH = 4
-const NO_SURFACE_FOUND = 5
-const SUCCESS = 10
+@export var skeleton_id: int
+@export var mesh_ids: Dictionary
 
-@export var skeleton_array: Array
-@export var awoc_mesh_res_dictionary: Dictionary
 var avatar: Node3D
 var skeleton: Skeleton3D
 var mesh_dictionary: Dictionary
 
-func recursive_get_skeleton(sourceObj: Node) -> Skeleton3D:
-	if sourceObj is Skeleton3D:
-		return sourceObj
-	for child: Node in sourceObj.get_children():
-		var skele: Skeleton3D = recursive_get_skeleton(child)
-		if skele != null:
-			return skele
-	return null
+const AVATAR_PATH_NOT_OPENED: int = 1
+const AVATAR_DIR_NOT_CREATED: int = 1
 
-func add_skeleton_to_res(source_skeleton: Skeleton3D) -> int:
-	var bone_count = source_skeleton.get_bone_count()
-	skeleton_array = []
-	for a in bone_count:
-		var bone_res: AwocBoneRes = AwocBoneRes.new()
-		bone_res.serialize_bone(source_skeleton, a)
-		skeleton_array.append(bone_res)
+const INVALID_SKELETON_PATH: int = 1
+const SKELETON_RES_SAVE_FAILED: int = 1
+const SKELETON_UID_NOT_FOUND: int = 1
+const NO_MESH_CHILDREN_FOUND_IN_SOURCE_SKELETON: int = 1
+const NO_MESHES_FOUND_IN_SOURCE_SKELETON: int = 1
+const SKELETON_ID_NOT_FOUND: int = 1
+const SKELETON_RES_NOT_LOADED: int = 1
+const SOURCE_SKELETON_NOT_FOUND: int = 1
+const NO_BONES_IN_SOURCE_SKELETON: int = 1
+const NO_BONES_IN_SKELETON_RESOURCE: int = 1
+const SKELETON_NOT_INITILIZED: int = 1
+
+const INVALID_MESH_TO_DELETE: int = 1
+const MESH_ID_NOT_FOUND: int = 1
+const PATH_NOT_RETURNED_FROM_MESH_UID: int = 1
+const MESH_DIR_NOT_OPENED: int = 1
+const MESH_RESOUCE_NOT_DELETED: int = 1
+const MESH_ID_NOT_DELETED: int = 1
+const INVALID_MESH_PATH: int = 1
+const SAVE_MESH_RESOURCE_ERROR: int = 1
+const MESH_NOT_LOADED: int = 1
+const NO_MESH_SURFACE_FOUND: int = 1
+const NO_MESH_SURFACE_ARRAY: int = 1
+const MESH_NOT_INITILIZED: int = 1
+const NO_MESH_RESOURCE_SURFACE_FOUND: int = 1
+const MESH_NOT_FOUND_IN_MESH_DICTIONARY: int = 1
+const MESH_NOT_FOUND_IN_MESH_IDS_DICTIONARY: int = 1
+const MESH_RESOURCE_NOT_LOADED: int = 1
+
+const SUCCESS = 100
+
+func add_mesh_to_res(node: Node, overwrite: bool) -> int:
 	return SUCCESS
 	
-func create_skeleton() -> int:
-	var bone_count: int = skeleton_array.size()
-	skeleton = Skeleton3D.new()
-	for a in bone_count:
-		skeleton.add_bone(skeleton_array[a].bone_name)	
-		skeleton.set_bone_global_pose_override(a, skeleton_array[a].global_pose_override,1)
-		skeleton.set_bone_parent(a, skeleton_array[a].bone_parent)
-		skeleton.set_bone_pose_position(a, skeleton_array[a].bone_position)
-		skeleton.set_bone_pose_scale(a, skeleton_array[a].bone_scale)
-		skeleton.set_bone_pose_rotation(a, skeleton_array[a].bone_rotation)
-		skeleton.set_bone_rest(a, skeleton_array[a].bone_rest)
+func rename_mesh(mesh_name: String, new_name: String, override: bool) -> int:
+	return SUCCESS
+	
+func add_mesh_to_skeleton(mesh_to_add: String) -> int:
+	if !mesh_ids.has(mesh_to_add):
+		printerr("Mesh ID dictionary does not contain " + mesh_to_add + "\nAWOCAvatarRes add_mesh_to_skeleton")
+		return MESH_NOT_FOUND_IN_MESH_IDS_DICTIONARY
+	if skeleton == null:
+		printerr("Skeleton has not been instantiated\nAWOCAvatarRes add_mesh_to_skeleton")
+		return SKELETON_NOT_INITILIZED
+	var mesh_res: AWOCMeshRes = load(ResourceUID.get_id_path(mesh_ids[mesh_to_add]))
+	if mesh_res == null:
+		printerr("AWOCMeshRes not loaded.\nAWOCAvatarRes add_mesh_to_skeleton")
+		return MESH_RESOURCE_NOT_LOADED
+	var de_mesh = mesh_res.deserialize_mesh(skeleton)
+	if de_mesh != SUCCESS:
+		return de_mesh
+	mesh_dictionary[mesh_to_add] = mesh_res.mesh
+	return SUCCESS
+	
+func delete_mesh_from_res(mesh_to_delete: String) -> int:
+	if mesh_to_delete.length() < 1:
+		return INVALID_MESH_TO_DELETE
+	if mesh_ids == null or !mesh_ids.has(mesh_to_delete) or !ResourceUID.has_id(mesh_ids[mesh_to_delete]):
+		return MESH_ID_NOT_FOUND
+	var mesh_path = ResourceUID.get_id_path(mesh_ids[mesh_to_delete])
+	if mesh_path == null:
+		return PATH_NOT_RETURNED_FROM_MESH_UID
+	var dir = DirAccess.open(mesh_path)
+	if dir == null:
+		return MESH_DIR_NOT_OPENED
+	var delete_mesh = dir.remove(mesh_path)
+	if delete_mesh != OK:
+		return MESH_RESOUCE_NOT_DELETED
+	if !mesh_ids.erase(mesh_to_delete):
+		return MESH_ID_NOT_DELETED
+	return SUCCESS
+	
+func delete_mesh_from_skeleton(mesh_to_delete: String) -> int:
+	if !mesh_dictionary.has(mesh_to_delete):
+		return MESH_NOT_FOUND_IN_MESH_DICTIONARY
+	mesh_dictionary[mesh_to_delete].queue_free()
+	mesh_dictionary.erase(mesh_to_delete)
+	return SUCCESS
+	
+func save_skeleton_res(skeleton_res: AWOCSkeletonRes, skeleton_path: String):
+	var save_skeleton_res: Error = ResourceSaver.save(skeleton_res, skeleton_path)
+	if save_skeleton_res != OK:
+		printerr("Error saving AWOCSkeletonRes. ResourceSaver.save error:" + str(save_skeleton_res) + "\nAWOCAvatarRes create_skeleton_res")
+		return SKELETON_RES_SAVE_FAILED
+	
+func create_skeleton_res(skeleton_path: String, source_skeleton: Skeleton3D) -> int:
+	if !skeleton_path.is_absolute_path():
+		printerr("Invalid save path for AWOCSKeletonRes.\nAWOCAvatarRes create_skeleton_res")
+		return INVALID_SKELETON_PATH
+	
+	var skeleton_res: AWOCSkeletonRes = AWOCSkeletonRes.new()	
+	save_skeleton_res(skeleton_res, skeleton_path)
+		
+	skeleton_id = ResourceLoader.get_resource_uid(skeleton_path)
+	print("skeleton_id = " + str(skeleton_id))
+	if skeleton_id == -1:
+		printerr("Resource UID not found\nAWOCAvatarRes create_skeleton_res")
+		return SKELETON_UID_NOT_FOUND
+		
+	var serialized_skeleton = skeleton_res.serialize_skeleton(source_skeleton)
+	if serialized_skeleton != SUCCESS:
+		return serialized_skeleton
+		
+	save_skeleton_res(skeleton_res, skeleton_path)
 	return SUCCESS
 
-func add_mesh_to_res(source_mesh: MeshInstance3D, override: bool) -> int:
+func create_avatar_directory(path: String, avatar_path) -> int:
+	var dir = DirAccess.open(path)
+	if dir == null:
+		printerr(path + " could not be opened.\nAWOCAvatarRes create_avatar_directory")
+		return AVATAR_PATH_NOT_OPENED
+		
+	if !dir.dir_exists(avatar_path):
+		var make_dir: Error = dir.make_dir("Avatar")
+		if make_dir != OK:
+			printerr("Error making Avatar directory. DirAccess.make_dir Error:" + str(make_dir) + "\nAWOCAvatarRes create_avatar_directory")
+			return AVATAR_DIR_NOT_CREATED
+			
+	return SUCCESS
+
+func serialize_meshes(source_skeleton: Skeleton3D, avatar_path: String) -> int:
+	if source_skeleton.get_child_count() < 1:
+		printerr("No mesh children found in source skeleton.\nAWOCAvatarRes serialize_meshes")
+		return NO_MESH_CHILDREN_FOUND_IN_SOURCE_SKELETON
+		
+	var found: bool = false
+	for mesh in source_skeleton.get_children():
+		if mesh is MeshInstance3D:
+			found = true
+			
+			var mesh_res: AWOCMeshRes = AWOCMeshRes.new()
+			mesh_res.serialize_mesh(mesh)
+			
+			var mesh_path = avatar_path + "/" + mesh.name + ".res"
+			if !mesh_path.is_absolute_path():
+				printerr("Invalid mesh path\nAWOCAvatarRes serialize_meshes")
+				return INVALID_MESH_PATH
+				
+			var save_mesh: Error = ResourceSaver.save(mesh_res, mesh_path)
+			if save_mesh != OK:
+				printerr("Save mesh failed. ResourceSaver.save Error: " + str(save_mesh) + "\nAWOCAvatarRes serialize_meshes")
+				return SAVE_MESH_RESOURCE_ERROR
+				
+			var mesh_id: int = ResourceLoader.get_resource_uid(mesh_path)
+			if mesh_id == -1:
+				printerr("Mesh ID not found.\nAWOCAvatarRes serialize_meshes")
+				return MESH_ID_NOT_FOUND
+				
+			mesh_ids[mesh.name] = mesh_id
+	if !found:
+		printerr("No meshes found in source skeleton.\nAWOCAvatarRes serialize_meshes")
+		return NO_MESHES_FOUND_IN_SOURCE_SKELETON
+		
+	return SUCCESS
+	
+func init_avatar():
+	avatar = Node3D.new()
+	avatar.position = Vector3.ZERO
+	avatar.rotation = Vector3.ZERO
+	avatar.scale = Vector3.ONE
+	
+func deserialize_skeleton() -> int:
+	if skeleton_id == null or skeleton_id < 1:
+		printerr("No id found for AWOCSkeletonRes.\nAWOCAvatarRes deserialize_skeleton")
+		return SKELETON_ID_NOT_FOUND
+	var skeleton_res: AWOCSkeletonRes = load(ResourceUID.get_id_path(skeleton_id))
+	if skeleton_res == null:
+		printerr("AWOCSkeletonRes could not be loaded.\nAWOCAvatarRes deserialize_skeleton")
+		return SKELETON_RES_NOT_LOADED
+	var skeleton_res_error = skeleton_res.deserialize_skeleton()
+	if skeleton_res_error != SUCCESS:
+		return skeleton_res_error
+	skeleton = skeleton_res.skeleton
+	return SUCCESS
+	
+func serialize_avatar(source_obj: Node, path: String) -> int:
+	var source_skeleton: Skeleton3D = AWOCSkeletonRes.recursive_get_skeleton(source_obj)
+	if source_skeleton == null:
+		printerr("Skeleton not found in source node.\nAWOCAvatarRes serialize_avatar")
+		return SOURCE_SKELETON_NOT_FOUND
+		
+	var avatar_path: String = path + "/Avatar"
+	var skeleton_path: String = avatar_path + "/skeleton.res"
+	
+	var create_avatar_dir_error: int = create_avatar_directory(path, avatar_path)
+	if create_avatar_dir_error != SUCCESS:
+		return create_avatar_dir_error
+	
+	var create_skeleton_error: int = create_skeleton_res(skeleton_path, source_skeleton)
+	if create_skeleton_error != SUCCESS:
+		return create_skeleton_error
+		
+	var serialize_meshes_error: int = serialize_meshes(source_skeleton, avatar_path)
+	if serialize_meshes_error != SUCCESS:
+		return serialize_meshes_error
+		
+	return SUCCESS
+	
+func deserialize_avatar(mesh_list: Array):
+	init_avatar()
+	var de_skele = deserialize_skeleton()
+	if de_skele != SUCCESS:
+		return de_skele
+	avatar.add_child(skeleton)
+	for mesh_name in mesh_list:
+		var mesh_res: AWOCMeshRes = load(ResourceUID.get_id_path(mesh_ids[mesh_name]))
+		if mesh_res == null:
+			printerr("AWOCMeshRes not loaded.\nAWOCAvatarRes deserialize_avatar")
+			return MESH_NOT_LOADED
+		var de_mesh: int = mesh_res.deserialize_mesh(skeleton)
+		if de_mesh != SUCCESS:
+			return de_mesh
+		mesh_dictionary[mesh_name] = mesh_res.mesh
+
+
+
+"""func add_mesh_to_res(source_mesh: MeshInstance3D, override: bool) -> int:
 	if skeleton_array == null or skeleton_array.size() < 1:
 		return SKELETON_DOES_NOT_EXIST
 	if !override and awoc_mesh_res_dictionary.has(source_mesh.name):
@@ -76,12 +258,7 @@ func create_mesh(mesh_name: String) -> int:
 	return SUCCESS
 
 func delete_mesh_from_res(mesh_to_delete: String) -> int:
-	if mesh_to_delete.length() < 1:
-		return INVALID_PATH
-	if awoc_mesh_res_dictionary == null or !awoc_mesh_res_dictionary.has(mesh_to_delete):
-		return MESH_DOES_NOT_EXIST
-	awoc_mesh_res_dictionary.erase(mesh_to_delete)
-	return SUCCESS
+	
 	
 func delete_mesh_from_skeleton(mesh_to_delete: String) -> int:
 	if mesh_to_delete.length() < 1:
@@ -134,7 +311,7 @@ func clear_avatar():
 			child.queue_free()
 	
 func get_avatar():
-	return avatar
+	return avatar"""
 	
 """namespace AWOC
 {

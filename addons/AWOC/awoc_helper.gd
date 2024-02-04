@@ -1,5 +1,5 @@
 @tool
-class_name AwocHelper extends Node
+class_name AWOCHelper extends Node
 
 # <summary>
 # Splits an entire path until only the file name remains

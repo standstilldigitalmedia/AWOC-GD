@@ -1,5 +1,5 @@
 @tool
-class_name AwocBoneRes extends Resource
+class_name AWOCBoneRes extends Resource
 
 @export var bone_name: String
 @export var global_pose_override: Transform3D

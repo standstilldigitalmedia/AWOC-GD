@@ -1,5 +1,5 @@
 @tool
-class_name AwocMeshContainer extends AwocCenterPaneBase
+class_name AWOCMeshContainer extends AWOCCenterPaneBase
 
 signal show_mesh(m_name: String, show: bool)
 
@@ -22,26 +22,26 @@ func _on_save_button_pressed():
 		
 func _on_rename_confirmation_dialog_confirmed():
 	var saved: int = awoc_res.awoc_avatar_res.rename_mesh(mesh_name, mesh_name_line_edit.text, false)
-	if saved == AwocAvatarRes.MESH_DOES_NOT_EXIST:
+	"""if saved == AWOCAvatarRes.MESH_DOES_NOT_EXIST:
 		printerr("Mesh " + mesh_name + " does not exist")
-	if saved == AwocAvatarRes.MESH_EXISTS:
+	if saved == AWOCAvatarRes.MESH_EXISTS:
 		overwrite_mesh_confirmation_dialog.title = "Overwrite " + mesh_name + "?"
 		overwrite_mesh_confirmation_dialog.dialog_text = "Do you wish to overwrite the existing slot named " + mesh_name_line_edit.text + "?" 
 		overwrite_mesh_confirmation_dialog.visible = true
 		return
-	awoc_res.save_awoc()
-	queue_free()
+	mesh_name = mesh_name_line_edit.text
+	awoc_res.save_awoc()"""
 
 func _on_overwrite_mesh_confirmation_dialog_confirmed():
 	var saved: int = awoc_res.awoc_avatar_res.rename_mesh(mesh_name, mesh_name_line_edit.text, true)
-	if saved == AwocAvatarRes.MESH_DOES_NOT_EXIST:
+	"""if saved == AWOCAvatarRes.MESH_DOES_NOT_EXIST:
 		printerr("Mesh " + mesh_name + " does not exist")
 	awoc_res.save_awoc()
-	queue_free()
+	queue_free()"""
 		
 func _on_delete_mesh_confirmation_dialog_confirmed():
-	awoc_res.awoc_avatar_res.delete_mesh_from_res(mesh_name)
-	awoc_res.awoc_avatar_res.delete_mesh_from_skeleton(mesh_name)
+	awoc_res.avatar_res.delete_mesh_from_res(mesh_name)
+	awoc_res.avatar_res.delete_mesh_from_skeleton(mesh_name)
 	awoc_res.save_awoc()
 	queue_free()
 	
@@ -51,12 +51,12 @@ func _on_delete_button_pressed():
 	delete_mesh_confirmation_dialog.visible = true
 
 func _on_show_button_pressed():
-	awoc_res.awoc_avatar_res.create_mesh(mesh_name)
+	awoc_res.avatar_res.add_mesh_to_skeleton(mesh_name)
 	show_button.visible = false
 	hide_button.visible = true
 
 func _on_hide_button_pressed():
-	awoc_res.awoc_avatar_res.delete_mesh_from_skeleton(mesh_name)
+	awoc_res.avatar_res.delete_mesh_from_skeleton(mesh_name)
 	show_button.visible = true
 	hide_button.visible = false
 	

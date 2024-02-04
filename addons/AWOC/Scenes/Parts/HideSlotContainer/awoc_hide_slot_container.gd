@@ -1,5 +1,5 @@
 @tool
-class_name AwocHideSlotContainer extends Node
+class_name AWOCHideSlotContainer extends Node
 
 signal delete_hide_slot(hs_name: String) # In response to the ConfirmDeleteDialog being confirmed, this signal is emitted for SlotContainer to handle
 

@@ -1,9 +1,10 @@
 @tool
 
-class_name AwocEditor extends Control
+class_name AWOCEditor extends Control
 
 # The various panes that will be loaded into the center of the editor window
 @export var welcome_pane: PackedScene
+@export var new_awoc_pane: PackedScene
 @export var slots_pane: PackedScene
 @export var meshes_pane: PackedScene
 @export var materials_pane: PackedScene
@@ -28,8 +29,8 @@ class_name AwocEditor extends Control
 # The center pane where the regular panes are parented
 #@export var mainContainer: HBoxContainer
 
-@export var awoc_res: AwocRes
-var current_pane: AwocCenterPaneBase
+@export var awoc_res: AWOCRes
+var current_pane: AWOCCenterPaneBase
 #var currentPreviewNode: BasePreviewPane
 
 # <summary>
@@ -55,7 +56,7 @@ func disable_left_nav(disable: bool):
 func load_pane(pane: PackedScene):
 	#if loading welcomePane, disable the buttons in the left navigation
 	#otherwise, enable them
-	if pane == welcome_pane:
+	if pane == welcome_pane or pane == new_awoc_pane:
 		disable_left_nav(true)
 	else:
 		disable_left_nav(false)
@@ -69,7 +70,7 @@ func load_pane(pane: PackedScene):
 
 	#now that all the old stuff has been freed, the new pane can be instantiated and parented to the right pane	
 	current_pane = pane.instantiate()
-	current_pane.init_panel(self)
+	current_pane.init_pane(self)
 	rightPane.add_child(current_pane)
 
 # <summary>

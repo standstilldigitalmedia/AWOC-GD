@@ -1,5 +1,5 @@
 @tool
-class_name AwocSlotsRes extends Resource
+class_name AWOCSlotsRes extends Resource
 
 @export var slots: Dictionary
 

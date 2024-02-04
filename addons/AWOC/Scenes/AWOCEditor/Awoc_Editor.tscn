@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://4n0ogsy4pqel"]
+[gd_scene load_steps=11 format=3 uid="uid://4n0ogsy4pqel"]
 
 [ext_resource type="Script" path="res://addons/AWOC/Scenes/AWOCEditor/awoc_editor.gd" id="1_8jd62"]
 [ext_resource type="PackedScene" uid="uid://hd74w6jps4nh" path="res://addons/AWOC/Scenes/CenterPanes/Welcome/WelcomePane.tscn" id="2_47nme"]
 [ext_resource type="PackedScene" uid="uid://bong6fghk860t" path="res://addons/AWOC/Scenes/CenterPanes/Slots/SlotsPane.tscn" id="3_mgapg"]
+[ext_resource type="PackedScene" uid="uid://dl7ud42xme1uj" path="res://addons/AWOC/Scenes/CenterPanes/NewAWOC/NewAWOCPane.tscn" id="3_s6jct"]
 [ext_resource type="PackedScene" uid="uid://b5cm2d4tq4hyk" path="res://addons/AWOC/Scenes/CenterPanes/Meshes/MeshesPane.tscn" id="4_vrbpa"]
 [ext_resource type="PackedScene" uid="uid://bhjt3xvy74vk5" path="res://addons/AWOC/Scenes/CenterPanes/Materials/MaterialsPane.tscn" id="5_rkw2g"]
 [ext_resource type="PackedScene" uid="uid://crx8ve13vi50r" path="res://addons/AWOC/Scenes/CenterPanes/Recipes/RecipesPane.tscn" id="6_m8vqy"]
@@ -19,6 +20,7 @@ offset_right = 0.207977
 offset_bottom = 0.184021
 script = ExtResource("1_8jd62")
 welcome_pane = ExtResource("2_47nme")
+new_awoc_pane = ExtResource("3_s6jct")
 slots_pane = ExtResource("3_mgapg")
 meshes_pane = ExtResource("4_vrbpa")
 materials_pane = ExtResource("5_rkw2g")

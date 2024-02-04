@@ -1,9 +1,9 @@
 @tool
-class_name AwocCenterPaneBase extends Node
+class_name AWOCCenterPaneBase extends Node
 
-@export var awoc_editor: AwocEditor
-@export var awoc_res: AwocRes
+@export var awoc_editor: AWOCEditor
+@export var awoc_res: AWOCRes
 
-func init_panel(editor: AwocEditor):
+func init_pane(editor: AWOCEditor):
 	awoc_editor = editor
 	awoc_res = editor.awoc_res

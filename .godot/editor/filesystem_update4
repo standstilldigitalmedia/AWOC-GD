@@ -1,4 +1,10 @@
-res://maleawoc.res
-res://addons/AWOC/Scenes/CenterPanes/Meshes/awoc_mesh_preview.gd
-res://addons/AWOC/Scenes/CenterPanes/Meshes/MeshesPane.tscn
+res://addons/AWOC/Scenes/Parts/SlotContainer/SlotContainer.tscn
 res://addons/AWOC/Themes/main_theme.tres
+res://sdfsdfsdf/dfgdfg.res
+res://addons/AWOC/Scenes/CenterPanes/Meshes/MeshesPane.tscn
+res://addons/AWOC/Scenes/PreviewPanes/MeshPreview/mesh_preview.tscn
+res://addons/AWOC/Scenes/AWOCEditor/Awoc_Editor.tscn
+res://addons/AWOC/Resources/Avatar/awoc_avatar_res.gd
+res://addons/AWOC/Scenes/CenterPanes/Meshes/awoc_meshes_pane.gd
+res://addons/AWOC/Resources/Avatar/awoc_mesh_res.gd
+res://addons/AWOC/Scenes/PreviewPanes/MeshPreview/awoc_mesh_preview.gd

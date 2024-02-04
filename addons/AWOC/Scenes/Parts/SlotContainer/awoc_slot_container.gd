@@ -1,5 +1,5 @@
 @tool
-class_name AwocSlotContainer extends Node
+class_name AWOCSlotContainer extends Node
 
 signal populate()
 
@@ -18,27 +18,27 @@ signal populate()
 
 @export var slot_name: String #The AWOCSlot this container managages
 @export var slots_to_hide: Array
-var awoc_res: AwocRes
+var awoc_res: AWOCRes
 
 func populate_hide_slot_select():
-	var hide_slots: PackedStringArray = awoc_res.awoc_slots_res.get_available_hide_slots(slot_name)
+	var hide_slots: PackedStringArray = awoc_res.slots_res.get_available_hide_slots(slot_name)
 	hide_slot_select.clear()
 	for hide_slot in hide_slots:
 		hide_slot_select.add_item(hide_slot)
 
 func delete_hide_slot(hide_slot_name: String):
-	var error: int = awoc_res.awoc_slots_res.delete_hide_slot(slot_name,hide_slot_name)
-	if error == AwocSlotsRes.SUCCESS:
+	var error: int = awoc_res.slots_res.delete_hide_slot(slot_name,hide_slot_name)
+	if error == AWOCSlotsRes.SUCCESS:
 		awoc_res.save_awoc()
 		populate_hide_slot_select()
 		hide_slot_select.selected = -1
 	else:
-		push_error(AwocSlotsRes.get_error(error,hide_slot_name))
+		push_error(AWOCSlotsRes.get_error(error,hide_slot_name))
 
 func populate_hide_slot_container():
 	for child in hide_slot_scroll_container.get_children():
 		child.queue_free()
-	for hide_slot: String in awoc_res.awoc_slots_res.slots[slot_name]:
+	for hide_slot: String in awoc_res.slots_res.slots[slot_name]:
 		print(hide_slot + " hide slot")
 		var hide_slot_container = hide_slot_container_scene.instantiate()
 		hide_slot_container.set_hide_slot_name(hide_slot)
@@ -56,7 +56,7 @@ func _on_slot_button_toggled(toggled_on: bool):
 	show_button.visible = true
 	hide_button.visible = false
 	
-func set_slot_name(s_name: String, a_res: AwocRes):
+func set_slot_name(s_name: String, a_res: AWOCRes):
 	slot_name = s_name;
 	slot_button.text = s_name;
 	slot_name_edit.text = s_name;
@@ -99,30 +99,30 @@ func _on_hide_slot_select_item_selected(index):
 func _on_add_hide_slot_button_pressed():
 	add_hide_slot_button.disabled = true
 	var selected_hide_slot: String = hide_slot_select.get_item_text(hide_slot_select.get_selected_id())
-	var error: int = awoc_res.awoc_slots_res.add_hide_slot(slot_name, selected_hide_slot)
-	if error == AwocSlotsRes.SUCCESS:
+	var error: int = awoc_res.slots_res.add_hide_slot(slot_name, selected_hide_slot)
+	if error == AWOCSlotsRes.SUCCESS:
 		awoc_res.save_awoc()
 		populate_hide_slot_select()
 		populate_hide_slot_container()
 	else:
-		push_error(AwocSlotsRes.get_error(error,selected_hide_slot))
+		push_error(AWOCSlotsRes.get_error(error,selected_hide_slot))
 
 func _on_confirm_save_dialog_confirmed():
-	var error: int = awoc_res.awoc_slots_res.rename_slot(slot_name, slot_name_edit.text)
-	if error == AwocSlotsRes.SUCCESS:
+	var error: int = awoc_res.slots_res.rename_slot(slot_name, slot_name_edit.text)
+	if error == AWOCSlotsRes.SUCCESS:
 		awoc_res.save_awoc()
 		set_slot_name(slot_name_edit.text, awoc_res)
 	else:
-		push_error(AwocSlotsRes.get_error(error,slot_name))
+		push_error(AWOCSlotsRes.get_error(error,slot_name))
 	
 func _on_confirm_delete_dialog_confirmed():
-	var error: int = awoc_res.awoc_slots_res.delete_slot(slot_name)
-	if error == AwocSlotsRes.SUCCESS:
+	var error: int = awoc_res.slots_res.delete_slot(slot_name)
+	if error == AWOCSlotsRes.SUCCESS:
 		awoc_res.save_awoc()
 		populate.emit()
 		queue_free()
 	else:
-		push_error(AwocSlotsRes.get_error(error,slot_name))
+		push_error(AWOCSlotsRes.get_error(error,slot_name))
 	
 
 

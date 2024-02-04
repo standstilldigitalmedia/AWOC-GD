@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://b5cm2d4tq4hyk"]
+[gd_scene load_steps=9 format=3 uid="uid://b5cm2d4tq4hyk"]
 
 [ext_resource type="Script" path="res://addons/AWOC/Scenes/CenterPanes/Meshes/awoc_meshes_pane.gd" id="1_opa14"]
 [ext_resource type="Theme" uid="uid://drffev6w87ljh" path="res://addons/AWOC/Themes/main_theme.tres" id="2_uaf4o"]
@@ -7,20 +7,9 @@
 [ext_resource type="Script" path="res://addons/AWOC/ControlOverrides/single_mesh_control_override.gd" id="3_fl2b8"]
 [ext_resource type="Texture2D" uid="uid://ck44qw1l0nk63" path="res://addons/AWOC/Images/Folder.svg" id="3_gjt58"]
 [ext_resource type="Script" path="res://addons/AWOC/ControlOverrides/multiple_mesh_control_override.gd" id="5_3qgmh"]
-[ext_resource type="Script" path="res://addons/AWOC/Scenes/CenterPanes/Meshes/awoc_mesh_preview.gd" id="8_lwf4s"]
-[ext_resource type="Texture2D" uid="uid://5a4bi2dff8dk" path="res://addons/AWOC/Images/RotateLeft.svg" id="9_ex5cp"]
-[ext_resource type="Texture2D" uid="uid://b38kjo75amqwy" path="res://addons/AWOC/Images/ArrowUp.svg" id="10_k823p"]
-[ext_resource type="Texture2D" uid="uid://ddrmclnfoer4s" path="res://addons/AWOC/Images/RotateRight.svg" id="11_ep71w"]
-[ext_resource type="Texture2D" uid="uid://c4dbqhgevxie6" path="res://addons/AWOC/Images/ArrowLeft.svg" id="12_3bg31"]
-[ext_resource type="Texture2D" uid="uid://dy8yvja4x1nsr" path="res://addons/AWOC/Images/CenterView.svg" id="13_rvrnu"]
-[ext_resource type="Texture2D" uid="uid://t35u6qnqssdk" path="res://addons/AWOC/Images/ArrowRight.svg" id="14_qpngy"]
-[ext_resource type="Texture2D" uid="uid://ctyltspjtpj25" path="res://addons/AWOC/Images/CurveConstant.svg" id="15_4hv3w"]
-[ext_resource type="Texture2D" uid="uid://dpfqlxlqoeppx" path="res://addons/AWOC/Images/ArrowDown.svg" id="16_b5pfx"]
+[ext_resource type="PackedScene" uid="uid://cwkbfc3xc10al" path="res://addons/AWOC/Scenes/PreviewPanes/MeshPreview/mesh_preview.tscn" id="9_o487o"]
 
-[sub_resource type="Environment" id="Environment_3g2qc"]
-background_mode = 1
-
-[node name="Meshes" type="MarginContainer" node_paths=PackedStringArray("single_mesh_line_edit", "add_single_mesh_button", "mesh_file_line_edit", "mesh_file_browse_button", "add_mesh_file_button", "mesh_list_container", "load_mesh_dialog", "subject")]
+[node name="Meshes" type="MarginContainer" node_paths=PackedStringArray("single_mesh_line_edit", "add_single_mesh_button", "mesh_file_line_edit", "mesh_file_browse_button", "add_mesh_file_button", "mesh_list_container", "load_mesh_dialog", "main_container")]
 custom_minimum_size = Vector2(265, 200)
 anchors_preset = -1
 anchor_right = 0.508
@@ -40,7 +29,8 @@ add_mesh_file_button = NodePath("HBoxContainer/MainContainer/MeshFileContainer/A
 mesh_list_container = NodePath("HBoxContainer/MainContainer/MeshListBackground/MeshListMarginContainer/MeshListScrollContainer/MeshListContainer")
 mesh_container_scene = ExtResource("2_vrb5j")
 load_mesh_dialog = NodePath("HBoxContainer/MainContainer/LoadMeshDialog")
-subject = NodePath("HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/CenterContainer/SubViewportContainer/SubViewport/Subject")
+mesh_preview_scene = ExtResource("9_o487o")
+main_container = NodePath("HBoxContainer")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
@@ -137,209 +127,7 @@ ok_button_text = "Open"
 file_mode = 0
 filters = PackedStringArray("*.glb ; GL Transmission Format Binary file")
 
-[node name="MeshPreview" type="ColorRect" parent="HBoxContainer" node_paths=PackedStringArray("main_camera", "subject")]
-custom_minimum_size = Vector2(300, 345)
-layout_mode = 2
-color = Color(1, 1, 1, 0.0392157)
-script = ExtResource("8_lwf4s")
-main_camera = NodePath("MarginContainer/VBoxContainer/CenterContainer/SubViewportContainer/SubViewport/Camera3D")
-subject = NodePath("MarginContainer/VBoxContainer/CenterContainer/SubViewportContainer/SubViewport/Subject")
-
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/MeshPreview"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_top = 10
-
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/MeshPreview/MarginContainer"]
-custom_minimum_size = Vector2(300, 335)
-layout_mode = 2
-theme_override_constants/separation = 19
-
-[node name="CenterContainer" type="CenterContainer" parent="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="SubViewportContainer" type="SubViewportContainer" parent="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/CenterContainer"]
-layout_mode = 2
-
-[node name="SubViewport" type="SubViewport" parent="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/CenterContainer/SubViewportContainer"]
-own_world_3d = true
-handle_input_locally = false
-size = Vector2i(285, 200)
-render_target_update_mode = 4
-
-[node name="Camera3D" type="Camera3D" parent="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/CenterContainer/SubViewportContainer/SubViewport"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.91798)
-environment = SubResource("Environment_3g2qc")
-
-[node name="Subject" type="Node3D" parent="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/CenterContainer/SubViewportContainer/SubViewport"]
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/CenterContainer/SubViewportContainer/SubViewport"]
-transform = Transform3D(1, 0, 0, 0, 0.00340337, 0.999994, 0, -0.999994, 0.00340337, 0, 9.66059, 0)
-light_energy = 16.0
-
-[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/CenterContainer/SubViewportContainer/SubViewport"]
-transform = Transform3D(1, 0, 0, 0, 0.0602471, -0.998183, 0, 0.998183, 0.0602471, 0, -10.2096, 0)
-light_energy = 16.0
-
-[node name="MarginContainer2" type="MarginContainer" parent="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 5
-
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2"]
-layout_mode = 2
-theme_override_constants/separation = 15
-
-[node name="CenterContainer2" type="CenterContainer" parent="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer"]
-layout_mode = 2
-
-[node name="GridContainer" type="GridContainer" parent="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/CenterContainer2"]
-layout_mode = 2
-columns = 3
-
-[node name="RotateLeftButton" type="Button" parent="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/CenterContainer2/GridContainer"]
-custom_minimum_size = Vector2(26, 26)
-layout_mode = 2
-theme = ExtResource("2_uaf4o")
-icon = ExtResource("9_ex5cp")
-icon_alignment = 1
-
-[node name="UpButton" type="Button" parent="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/CenterContainer2/GridContainer"]
-custom_minimum_size = Vector2(26, 26)
-layout_mode = 2
-theme = ExtResource("2_uaf4o")
-icon = ExtResource("10_k823p")
-icon_alignment = 1
-
-[node name="RotateRightButton" type="Button" parent="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/CenterContainer2/GridContainer"]
-custom_minimum_size = Vector2(26, 26)
-layout_mode = 2
-theme = ExtResource("2_uaf4o")
-icon = ExtResource("11_ep71w")
-icon_alignment = 1
-
-[node name="LeftButton" type="Button" parent="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/CenterContainer2/GridContainer"]
-custom_minimum_size = Vector2(26, 26)
-layout_mode = 2
-theme = ExtResource("2_uaf4o")
-icon = ExtResource("12_3bg31")
-icon_alignment = 1
-
-[node name="ResetButton" type="Button" parent="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/CenterContainer2/GridContainer"]
-custom_minimum_size = Vector2(26, 26)
-layout_mode = 2
-theme = ExtResource("2_uaf4o")
-icon = ExtResource("13_rvrnu")
-icon_alignment = 1
-
-[node name="RightButton" type="Button" parent="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/CenterContainer2/GridContainer"]
-custom_minimum_size = Vector2(26, 26)
-layout_mode = 2
-theme = ExtResource("2_uaf4o")
-icon = ExtResource("14_qpngy")
-icon_alignment = 1
-
-[node name="ZoomOutButton" type="Button" parent="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/CenterContainer2/GridContainer"]
-custom_minimum_size = Vector2(26, 26)
-layout_mode = 2
-theme = ExtResource("2_uaf4o")
-icon = ExtResource("15_4hv3w")
-icon_alignment = 1
-
-[node name="DownButton" type="Button" parent="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/CenterContainer2/GridContainer"]
-custom_minimum_size = Vector2(26, 26)
-layout_mode = 2
-theme = ExtResource("2_uaf4o")
-icon = ExtResource("16_b5pfx")
-icon_alignment = 1
-
-[node name="ZoomInButton" type="Button" parent="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/CenterContainer2/GridContainer"]
-custom_minimum_size = Vector2(26, 26)
-layout_mode = 2
-theme = ExtResource("2_uaf4o")
-icon = ExtResource("3_21ojb")
-icon_alignment = 1
-
-[node name="CenterContainer" type="CenterContainer" parent="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer"]
-layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/CenterContainer"]
-layout_mode = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/CenterContainer/HBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 14
-
-[node name="MoveSpeedLabel" type="Label" parent="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/CenterContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-theme = ExtResource("2_uaf4o")
-theme_override_font_sizes/font_size = 10
-text = "Move Speed"
-
-[node name="RotateSpeedLabel" type="Label" parent="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/CenterContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-theme = ExtResource("2_uaf4o")
-theme_override_font_sizes/font_size = 10
-text = "Rotate Speed"
-
-[node name="ZoomSpeedLabel" type="Label" parent="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/CenterContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-theme = ExtResource("2_uaf4o")
-theme_override_font_sizes/font_size = 10
-text = "Zoom Speed"
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/CenterContainer/HBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 19
-
-[node name="MoveSpeedHSlider" type="HSlider" parent="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/CenterContainer/HBoxContainer/VBoxContainer2"]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-theme = ExtResource("2_uaf4o")
-min_value = 1.0
-max_value = 20.0
-value = 5.0
-
-[node name="RotateSpeedHSlider" type="HSlider" parent="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/CenterContainer/HBoxContainer/VBoxContainer2"]
-custom_minimum_size = Vector2(75, 0)
-layout_mode = 2
-theme = ExtResource("2_uaf4o")
-min_value = 1.0
-max_value = 20.0
-value = 3.0
-
-[node name="ZoomSpeedHSlider" type="HSlider" parent="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/CenterContainer/HBoxContainer/VBoxContainer2"]
-custom_minimum_size = Vector2(75, 0)
-layout_mode = 2
-theme = ExtResource("2_uaf4o")
-min_value = 1.0
-max_value = 20.0
-value = 10.0
-
 [connection signal="pressed" from="HBoxContainer/MainContainer/MeshFileContainer/MeshFileBrowseButton" to="." method="_on_mesh_file_browse_button_pressed"]
 [connection signal="pressed" from="HBoxContainer/MainContainer/MeshFileContainer/AddMeshFileButton" to="." method="_on_add_mesh_file_button_pressed"]
 [connection signal="pressed" from="HBoxContainer/MainContainer/SingleMeshContainer/AddSingleMeshButton" to="." method="_on_add_single_mesh_button_pressed"]
 [connection signal="file_selected" from="HBoxContainer/MainContainer/LoadMeshDialog" to="." method="_on_load_mesh_dialog_file_selected"]
-[connection signal="button_down" from="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/CenterContainer2/GridContainer/RotateLeftButton" to="HBoxContainer/MeshPreview" method="_on_rotate_left_button_button_down"]
-[connection signal="button_up" from="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/CenterContainer2/GridContainer/RotateLeftButton" to="HBoxContainer/MeshPreview" method="on_button_up"]
-[connection signal="button_down" from="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/CenterContainer2/GridContainer/UpButton" to="HBoxContainer/MeshPreview" method="_on_up_button_button_down"]
-[connection signal="button_up" from="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/CenterContainer2/GridContainer/UpButton" to="HBoxContainer/MeshPreview" method="on_button_up"]
-[connection signal="button_down" from="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/CenterContainer2/GridContainer/RotateRightButton" to="HBoxContainer/MeshPreview" method="_on_rotate_right_button_button_down"]
-[connection signal="button_up" from="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/CenterContainer2/GridContainer/RotateRightButton" to="HBoxContainer/MeshPreview" method="on_button_up"]
-[connection signal="button_down" from="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/CenterContainer2/GridContainer/LeftButton" to="HBoxContainer/MeshPreview" method="_on_left_button_button_down"]
-[connection signal="button_up" from="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/CenterContainer2/GridContainer/LeftButton" to="HBoxContainer/MeshPreview" method="on_button_up"]
-[connection signal="pressed" from="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/CenterContainer2/GridContainer/ResetButton" to="HBoxContainer/MeshPreview" method="_on_reset_button_pressed"]
-[connection signal="button_down" from="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/CenterContainer2/GridContainer/RightButton" to="HBoxContainer/MeshPreview" method="_on_right_button_button_down"]
-[connection signal="button_up" from="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/CenterContainer2/GridContainer/RightButton" to="HBoxContainer/MeshPreview" method="on_button_up"]
-[connection signal="button_down" from="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/CenterContainer2/GridContainer/ZoomOutButton" to="HBoxContainer/MeshPreview" method="_on_zoom_out_button_button_down"]
-[connection signal="pressed" from="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/CenterContainer2/GridContainer/ZoomOutButton" to="HBoxContainer/MeshPreview" method="on_button_up"]
-[connection signal="button_down" from="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/CenterContainer2/GridContainer/DownButton" to="HBoxContainer/MeshPreview" method="_on_down_button_button_down"]
-[connection signal="button_up" from="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/CenterContainer2/GridContainer/DownButton" to="HBoxContainer/MeshPreview" method="on_button_up"]
-[connection signal="button_down" from="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/CenterContainer2/GridContainer/ZoomInButton" to="HBoxContainer/MeshPreview" method="_on_zoom_in_button_button_down"]
-[connection signal="button_up" from="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/CenterContainer2/GridContainer/ZoomInButton" to="HBoxContainer/MeshPreview" method="on_button_up"]
-[connection signal="value_changed" from="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/CenterContainer/HBoxContainer/VBoxContainer2/MoveSpeedHSlider" to="HBoxContainer/MeshPreview" method="_on_move_speed_h_slider_value_changed"]
-[connection signal="value_changed" from="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/CenterContainer/HBoxContainer/VBoxContainer2/RotateSpeedHSlider" to="HBoxContainer/MeshPreview" method="_on_rotate_speed_h_slider_value_changed"]
-[connection signal="value_changed" from="HBoxContainer/MeshPreview/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer/CenterContainer/HBoxContainer/VBoxContainer2/ZoomSpeedHSlider" to="HBoxContainer/MeshPreview" method="_on_zoom_speed_h_slider_value_changed"]

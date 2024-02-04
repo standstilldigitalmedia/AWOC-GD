@@ -32,7 +32,7 @@ func _process(delta):
 		if direction.z > 0:
 			new_position.z = main_camera.position.z + (zoom_speed * delta)
 		elif direction.z < 0:
-			new_position.z = main_camera.position.z - (zoom_speed * delta)
+			new_position.z = main_camera.position.z -(zoom_speed * delta)
 		main_camera.position = new_position;
 		
 	if rotate > 0:
@@ -71,6 +71,7 @@ func _on_zoom_in_button_button_down():
 func _on_reset_button_pressed():
 	main_camera.position = camera_position
 	subject.rotation = Vector3.ZERO
+	main_camera.size = 1
 
 func _on_move_speed_h_slider_value_changed(value):
 	move_speed = value

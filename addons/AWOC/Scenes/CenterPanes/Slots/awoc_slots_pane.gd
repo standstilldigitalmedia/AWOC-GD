@@ -1,5 +1,5 @@
 @tool
-extends AwocCenterPaneBase
+extends AWOCCenterPaneBase
 
 @export var slot_container: PackedScene #the scene to instantiate for each slot and parent to slotsScrollContainer
 @export var add_slot_name_edit: LineEdit #Line edit for entering a new slot name
@@ -12,35 +12,35 @@ func populate_slots_container():
 	for slot in slots_scroll_container.get_children():
 		slot.queue_free()
 		
-	for slot in awoc_res.awoc_slots_res.slots:
+	for slot in awoc_res.slots_res.slots:
 		var container = slot_container.instantiate()
 		container.set_slot_name(slot, awoc_res)
 		container.populate.connect(populate_slots_container)
 		slots_scroll_container.add_child(container)
 		
 func _on_add_slot_button_pressed():
-	var error: int = awoc_res.awoc_slots_res.add_slot(add_slot_name_edit.text,false)
-	if error == AwocSlotsRes.SUCCESS:
+	var error: int = awoc_res.slots_res.add_slot(add_slot_name_edit.text,false)
+	if error == AWOCSlotsRes.SUCCESS:
 		add_slot_name_edit.text = ""
 		awoc_res.save_awoc()
 		populate_slots_container()
-	elif error == AwocSlotsRes.SLOT_EXISTS:
+	elif error == AWOCSlotsRes.SLOT_EXISTS:
 		confirm_duplicate_slot_dialog.title = "Overwrite " + add_slot_name_edit.text + "?"
 		confirm_duplicate_slot_dialog.dialog_text = "A slot with this name already exists. Would you like to overwrite it?"
 		confirm_duplicate_slot_dialog.visible = true
 	else:
-		printerr(AwocSlotsRes.get_error(error,add_slot_name_edit.text))
+		printerr(AWOCSlotsRes.get_error(error,add_slot_name_edit.text))
 		
 func _on_confirm_duplicate_slot_dialog_confirmed():
-	var error: int = awoc_res.awoc_slots_res.add_slot(add_slot_name_edit.text,true)
-	if error == AwocSlotsRes.SUCCESS:
+	var error: int = awoc_res.slots_res.add_slot(add_slot_name_edit.text,true)
+	if error == AWOCSlotsRes.SUCCESS:
 		add_slot_name_edit.text = ""
 		awoc_res.save_awoc()
 		populate_slots_container()
 	else:
-		printerr(AwocSlotsRes.get_error(error,add_slot_name_edit.text))
+		printerr(AWOCSlotsRes.get_error(error,add_slot_name_edit.text))
 		
-func init_panel(editor: AwocEditor):
+func init_pane(editor: AWOCEditor):
 	awoc_editor = editor
 	awoc_res = editor.awoc_res
 	populate_slots_container()
