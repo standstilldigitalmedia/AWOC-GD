@@ -19,7 +19,7 @@ func serialize_skeleton(source_skeleton: Skeleton3D) -> int:
 	var bone_count = source_skeleton.get_bone_count()
 	if bone_count < 1:
 		printerr("Source skeleton does not have any bones\nAWOCSkeletonRes serialize_skeleton")
-		return AWOCAvatarRes.NO_BONES_IN_SOURCE_SKELETON
+		return AWOCError.NO_BONES_IN_SOURCE_SKELETON
 		
 	bones = []
 	for a in bone_count:
@@ -27,12 +27,12 @@ func serialize_skeleton(source_skeleton: Skeleton3D) -> int:
 		bone_res.serialize_bone(source_skeleton, a)
 		bones.append(bone_res)
 		
-	return AWOCAvatarRes.SUCCESS
+	return AWOCError.SUCCESS
 	
 func deserialize_skeleton() -> int:
 	if bones == null or bones.size() < 1:
 		printerr("Skeleton resource does not have any bones\n AWOCSkeletonRes deserialize_skeleton")
-		return AWOCAvatarRes.NO_BONES_IN_SKELETON_RESOURCE
+		return AWOCError.NO_BONES_IN_SKELETON_RESOURCE
 		
 	var bone_count: int = bones.size()
 	skeleton = Skeleton3D.new()
@@ -46,4 +46,4 @@ func deserialize_skeleton() -> int:
 		skeleton.set_bone_pose_rotation(a, bones[a].bone_rotation)
 		skeleton.set_bone_rest(a, bones[a].bone_rest)
 		
-	return AWOCAvatarRes.SUCCESS
+	return AWOCError.SUCCESS

@@ -14,7 +14,7 @@
 
 [sub_resource type="Environment" id="Environment_lffc1"]
 background_mode = 1
-background_color = Color(0, 0, 1, 1)
+background_color = Color(0.0392157, 0.0784314, 0.0392157, 1)
 
 [node name="MeshPreview" type="ColorRect" node_paths=PackedStringArray("main_camera", "subject")]
 custom_minimum_size = Vector2(300, 345)

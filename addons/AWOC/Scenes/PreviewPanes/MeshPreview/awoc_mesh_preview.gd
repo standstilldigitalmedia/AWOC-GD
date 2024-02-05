@@ -1,5 +1,5 @@
 @tool
-extends ColorRect
+class_name AWOCMeshPreview extends ColorRect
 
 @export var main_camera: Camera3D
 @export var subject: Node3D

@@ -1,7 +1,7 @@
 @tool
 class_name AWOCHelper extends Node
 
-# <summary>
+"""# <summary>
 # Splits an entire path until only the file name remains
 # </summary>
 # <param name="path">The path to be split</param>
@@ -13,7 +13,7 @@ static func get_file_name_from_path(path: String) -> String:
 	#split the file name at the period so file_split[0] is the
 	#file name without the extension
 	var file_split: PackedStringArray = dir_split[dir_split.size() -1].split(".")
-	return file_split[0]
+	return file_split[0]"""
 	
 
 
