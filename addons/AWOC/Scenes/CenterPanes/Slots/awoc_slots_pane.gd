@@ -20,25 +20,21 @@ func populate_slots_container():
 		
 func _on_add_slot_button_pressed():
 	var error: int = awoc_res.slots_res.add_slot(add_slot_name_edit.text,false)
-	if error == AWOCSlotsRes.SUCCESS:
+	if error == AWOCError.SUCCESS:
 		add_slot_name_edit.text = ""
 		awoc_res.save_awoc()
 		populate_slots_container()
-	elif error == AWOCSlotsRes.SLOT_EXISTS:
+	elif error == AWOCError.SLOT_EXISTS:
 		confirm_duplicate_slot_dialog.title = "Overwrite " + add_slot_name_edit.text + "?"
 		confirm_duplicate_slot_dialog.dialog_text = "A slot with this name already exists. Would you like to overwrite it?"
 		confirm_duplicate_slot_dialog.visible = true
-	else:
-		printerr(AWOCSlotsRes.get_error(error,add_slot_name_edit.text))
 		
 func _on_confirm_duplicate_slot_dialog_confirmed():
 	var error: int = awoc_res.slots_res.add_slot(add_slot_name_edit.text,true)
-	if error == AWOCSlotsRes.SUCCESS:
+	if error == AWOCError.SUCCESS:
 		add_slot_name_edit.text = ""
 		awoc_res.save_awoc()
 		populate_slots_container()
-	else:
-		printerr(AWOCSlotsRes.get_error(error,add_slot_name_edit.text))
 		
 func init_pane(editor: AWOCEditor):
 	awoc_editor = editor

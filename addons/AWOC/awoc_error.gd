@@ -1,6 +1,14 @@
 @tool
 class_name AWOCError extends Node
 
+const SLOTS_NOT_INITILIZED: int = 1
+const SLOT_EXISTS: int = 2
+const SLOT_DOESNT_EXIST: int = 3
+const HIDE_SLOT_EXISTS: int = 4
+const HIDE_SLOT_DOESNT_EXIST: int = 5
+const ARRAY_NOT_CREATED = 6
+const SLOT_NOT_ADDED = 7
+
 const AVATAR_PATH_NOT_OPENED: int = 1
 const AVATAR_DIR_NOT_CREATED: int = 1
 

@@ -13,6 +13,7 @@ signal populate()
 @export var add_hide_slot_button: Button
 @export var hide_slot_scroll_container: VBoxContainer #the container that holds all the hide slot controls
 @export var confirm_save_dialog: ConfirmationDialog #displayed when the save button is pressed. If confirmed, the new slot name is saved
+@export var confirm_overwrite_dialog: ConfirmationDialog
 @export var confirm_delete_dialog: ConfirmationDialog #displayed when the delete button is pressed. If confirmed, the new slot is deleted
 @export var hide_slot_container_scene: PackedScene #the scene to instantiate for each hide slot and parent to hideSlotScrollContainer
 
@@ -28,12 +29,10 @@ func populate_hide_slot_select():
 
 func delete_hide_slot(hide_slot_name: String):
 	var error: int = awoc_res.slots_res.delete_hide_slot(slot_name,hide_slot_name)
-	if error == AWOCSlotsRes.SUCCESS:
+	if error == AWOCError.SUCCESS:
 		awoc_res.save_awoc()
 		populate_hide_slot_select()
 		hide_slot_select.selected = -1
-	else:
-		push_error(AWOCSlotsRes.get_error(error,hide_slot_name))
 
 func populate_hide_slot_container():
 	for child in hide_slot_scroll_container.get_children():
@@ -100,29 +99,34 @@ func _on_add_hide_slot_button_pressed():
 	add_hide_slot_button.disabled = true
 	var selected_hide_slot: String = hide_slot_select.get_item_text(hide_slot_select.get_selected_id())
 	var error: int = awoc_res.slots_res.add_hide_slot(slot_name, selected_hide_slot)
-	if error == AWOCSlotsRes.SUCCESS:
+	if error == AWOCError.SUCCESS:
 		awoc_res.save_awoc()
 		populate_hide_slot_select()
 		populate_hide_slot_container()
-	else:
-		push_error(AWOCSlotsRes.get_error(error,selected_hide_slot))
 
 func _on_confirm_save_dialog_confirmed():
-	var error: int = awoc_res.slots_res.rename_slot(slot_name, slot_name_edit.text)
-	if error == AWOCSlotsRes.SUCCESS:
+	var error: int = awoc_res.slots_res.rename_slot(slot_name, slot_name_edit.text, false)
+	if error == AWOCError.SUCCESS:
 		awoc_res.save_awoc()
 		set_slot_name(slot_name_edit.text, awoc_res)
-	else:
-		push_error(AWOCSlotsRes.get_error(error,slot_name))
+	if error == AWOCError.SLOT_EXISTS:
+		confirm_overwrite_dialog.title = "Overwrite " + slot_name + "?"
+		confirm_overwrite_dialog.dialog_text = "Are you sure you want to overwrite " + slot_name + "? This can not be undone."
+		confirm_overwrite_dialog.visible = true
 	
 func _on_confirm_delete_dialog_confirmed():
 	var error: int = awoc_res.slots_res.delete_slot(slot_name)
-	if error == AWOCSlotsRes.SUCCESS:
+	if error == AWOCError.SUCCESS:
 		awoc_res.save_awoc()
 		populate.emit()
 		queue_free()
-	else:
-		push_error(AWOCSlotsRes.get_error(error,slot_name))
+		
+func _on_confirm_overwrite_dialog_confirmed():
+	var error: int = awoc_res.slots_res.rename_slot(slot_name, slot_name_edit.text, true)
+	if error == AWOCError.SUCCESS:
+		awoc_res.save_awoc()
+		queue_free()
+
 	
 
 
@@ -325,5 +329,3 @@ func _on_hide_slot_select_item_selected(index: int):
 	else:
 		add_hide_slot_button.disabled = true
 """
-
-

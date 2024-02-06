@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://dp60fbkc3xia" path="res://addons/AWOC/Images/GuiVisibilityVisible.svg" id="7_mvxtw"]
 [ext_resource type="Texture2D" uid="uid://cnuepoi4ynvoy" path="res://addons/AWOC/Images/Add.svg" id="8_gwhr1"]
 
-[node name="SlotContainer" type="VBoxContainer" node_paths=PackedStringArray("slot_button", "slot_controls_container", "slot_name_edit", "show_button", "hide_button", "hide_slot_container", "hide_slot_select", "add_hide_slot_button", "hide_slot_scroll_container", "confirm_save_dialog", "confirm_delete_dialog")]
+[node name="SlotContainer" type="VBoxContainer" node_paths=PackedStringArray("slot_button", "slot_controls_container", "slot_name_edit", "show_button", "hide_button", "hide_slot_container", "hide_slot_select", "add_hide_slot_button", "hide_slot_scroll_container", "confirm_save_dialog", "confirm_overwrite_dialog", "confirm_delete_dialog")]
 custom_minimum_size = Vector2(235, 0)
 anchors_preset = -1
 anchor_right = 0.214
@@ -28,6 +28,7 @@ hide_slot_select = NodePath("HideSlotsContainer/HideSlotsOuterContainer/HideSlot
 add_hide_slot_button = NodePath("HideSlotsContainer/HideSlotsOuterContainer/HideSlotsInnerContainer/HideSlotSelectSlot/AddHideSlotButton")
 hide_slot_scroll_container = NodePath("HideSlotsContainer/HideSlotsOuterContainer/HideSlotsInnerContainer/HideSlotsScrollBackground/HideSlotsScrollContainer/HideSlotsMarginContainer/HideSlotsContainer")
 confirm_save_dialog = NodePath("ConfirmSaveDialog")
+confirm_overwrite_dialog = NodePath("ConfirmOverwriteDialog")
 confirm_delete_dialog = NodePath("ConfirmDeleteDialog")
 hide_slot_container_scene = ExtResource("2_gyk4s")
 
@@ -147,6 +148,11 @@ initial_position = 2
 size = Vector2i(250, 150)
 theme = ExtResource("3_1bqud")
 
+[node name="ConfirmOverwriteDialog" type="ConfirmationDialog" parent="."]
+initial_position = 2
+size = Vector2i(250, 150)
+theme = ExtResource("3_1bqud")
+
 [node name="ConfirmDeleteDialog" type="ConfirmationDialog" parent="."]
 initial_position = 2
 size = Vector2i(250, 150)
@@ -160,4 +166,5 @@ theme = ExtResource("3_1bqud")
 [connection signal="item_selected" from="HideSlotsContainer/HideSlotsOuterContainer/HideSlotsInnerContainer/HideSlotSelectSlot/HideSlotSelect" to="." method="_on_hide_slot_select_item_selected"]
 [connection signal="pressed" from="HideSlotsContainer/HideSlotsOuterContainer/HideSlotsInnerContainer/HideSlotSelectSlot/AddHideSlotButton" to="." method="_on_add_hide_slot_button_pressed"]
 [connection signal="confirmed" from="ConfirmSaveDialog" to="." method="_on_confirm_save_dialog_confirmed"]
+[connection signal="confirmed" from="ConfirmOverwriteDialog" to="." method="_on_confirm_overwrite_dialog_confirmed"]
 [connection signal="confirmed" from="ConfirmDeleteDialog" to="." method="_on_confirm_delete_dialog_confirmed"]
