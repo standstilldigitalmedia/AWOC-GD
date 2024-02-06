@@ -44,8 +44,18 @@ func rename_slot(slot_to_rename: String, new_name: String, overwrite: bool) -> i
 		return check_slot
 	if !overwrite and slots.has(new_name):
 		return AWOCError.SLOT_EXISTS
+	for slot in slots:
+		if slots[slot] != null and slots[slot].size() > 0: 
+			for a in slots[slot].size():
+				if slots[slot][a] == slot_to_rename:
+					slots[slot][a] = new_name
 	slots[new_name] = slots[slot_to_rename]
 	slots.erase(slot_to_rename)
+	for a in slots[new_name].size():
+		if slots[new_name][a] == new_name:
+			slots[new_name].remove_at(a)
+			break
+	
 	return AWOCError.SUCCESS
 
 func delete_slot(slot_to_delete: String) -> int:

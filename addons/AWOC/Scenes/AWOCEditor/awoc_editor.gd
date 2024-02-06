@@ -1,5 +1,4 @@
 @tool
-
 class_name AWOCEditor extends Control
 
 # The various panes that will be loaded into the center of the editor window

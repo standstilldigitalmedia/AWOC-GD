@@ -26,6 +26,7 @@ func populate_hide_slot_select():
 	hide_slot_select.clear()
 	for hide_slot in hide_slots:
 		hide_slot_select.add_item(hide_slot)
+	hide_slot_select.selected = -1
 
 func delete_hide_slot(hide_slot_name: String):
 	var error: int = awoc_res.slots_res.delete_hide_slot(slot_name,hide_slot_name)
@@ -38,7 +39,6 @@ func populate_hide_slot_container():
 	for child in hide_slot_scroll_container.get_children():
 		child.queue_free()
 	for hide_slot: String in awoc_res.slots_res.slots[slot_name]:
-		print(hide_slot + " hide slot")
 		var hide_slot_container = hide_slot_container_scene.instantiate()
 		hide_slot_container.set_hide_slot_name(hide_slot)
 		hide_slot_container.delete_hide_slot.connect(delete_hide_slot)
@@ -68,9 +68,14 @@ func set_slot_name(s_name: String, a_res: AWOCRes):
 
 
 func _on_save_button_pressed():
-	confirm_save_dialog.title = "Rename " + slot_name + "?"
-	confirm_save_dialog.dialog_text = "Are you sure you want to rename " + slot_name + " to " + slot_name_edit.text + "? This can not be undone."
-	confirm_save_dialog.visible = true
+	if awoc_res.slots_res.slots.has(slot_name_edit.text):
+		confirm_overwrite_dialog.title = "Overwrite " + slot_name + "?"
+		confirm_overwrite_dialog.dialog_text = "A slot named " + slot_name_edit.text + " already exists. Do you want to overwrite it? This can not be undone."
+		confirm_overwrite_dialog.visible = true
+	else:
+		confirm_save_dialog.title = "Rename " + slot_name + "?"
+		confirm_save_dialog.dialog_text = "Are you sure you want to rename " + slot_name + " to " + slot_name_edit.text + "? This can not be undone."
+		confirm_save_dialog.visible = true
 
 
 func _on_delete_button_pressed():
@@ -110,9 +115,8 @@ func _on_confirm_save_dialog_confirmed():
 		awoc_res.save_awoc()
 		set_slot_name(slot_name_edit.text, awoc_res)
 	if error == AWOCError.SLOT_EXISTS:
-		confirm_overwrite_dialog.title = "Overwrite " + slot_name + "?"
-		confirm_overwrite_dialog.dialog_text = "Are you sure you want to overwrite " + slot_name + "? This can not be undone."
-		confirm_overwrite_dialog.visible = true
+		printerr("Should not get this error.\nAWOCSlotContainer _on_confirm_save_dialog_confirmed")
+	populate.emit()
 	
 func _on_confirm_delete_dialog_confirmed():
 	var error: int = awoc_res.slots_res.delete_slot(slot_name)
@@ -122,10 +126,12 @@ func _on_confirm_delete_dialog_confirmed():
 		queue_free()
 		
 func _on_confirm_overwrite_dialog_confirmed():
+	print("confirmed")
 	var error: int = awoc_res.slots_res.rename_slot(slot_name, slot_name_edit.text, true)
 	if error == AWOCError.SUCCESS:
 		awoc_res.save_awoc()
 		queue_free()
+	populate.emit()
 
 	
 
