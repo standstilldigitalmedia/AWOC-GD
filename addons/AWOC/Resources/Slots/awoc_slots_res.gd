@@ -25,11 +25,13 @@ func check_for_slot(slot_name: String, func_name: String) -> int:
 	return AWOCError.SUCCESS
 	
 func add_slot(slot_name: String, overwrite: bool) -> int:
+	if slot_name.length() < 4:
+		printerr("Please enter a name that is longer than 3 characters.")
+		return AWOCError.INVALID_NAME
 	if slots == null:
 		printerr("Slots dictionary in AWOCSlotRes has not been initilized\nAWOCSlotRes add_slot")
 		return AWOCError.SLOTS_NOT_INITILIZED
 	if !overwrite and slots.has(slot_name):
-		printerr("Slot " + slot_name + " already exists.\nAWOCSlotRes add_slot")
 		return AWOCError.SLOT_EXISTS
 		
 	slots[slot_name] = PackedStringArray()

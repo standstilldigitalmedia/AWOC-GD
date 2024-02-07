@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dl7ud42xme1uj"]
 
-[ext_resource type="Script" path="res://addons/AWOC/Scenes/CenterPanes/NewAWOC/new_awoc_pane.gd" id="1_j4dl0"]
+[ext_resource type="Script" path="res://addons/AWOC/Scenes/CenterPanes/NewAWOC/awoc_new_awoc_pane.gd" id="1_epvjr"]
 [ext_resource type="Theme" uid="uid://drffev6w87ljh" path="res://addons/AWOC/Themes/main_theme.tres" id="2_w6kfk"]
 [ext_resource type="Texture2D" uid="uid://ck44qw1l0nk63" path="res://addons/AWOC/Images/Folder.svg" id="3_mmgov"]
 
@@ -15,7 +15,7 @@ theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
-script = ExtResource("1_j4dl0")
+script = ExtResource("1_epvjr")
 awoc_name_line_edit = NodePath("VBoxContainer/HBoxContainer/AWOCNameLineEdit")
 asset_path_line_edit = NodePath("VBoxContainer/HBoxContainer2/AssetPathLineEdit")
 create_awoc_button = NodePath("VBoxContainer/CenterContainer/CreateAWOCButton")
