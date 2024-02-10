@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://b5cm2d4tq4hyk"]
+[gd_scene load_steps=9 format=3 uid="uid://b5cm2d4tq4hyk"]
 
 [ext_resource type="Script" path="res://addons/AWOC/Scenes/CenterPanes/Meshes/awoc_meshes_pane.gd" id="1_opa14"]
 [ext_resource type="Theme" uid="uid://drffev6w87ljh" path="res://addons/AWOC/Themes/main_theme.tres" id="2_uaf4o"]
@@ -7,7 +7,6 @@
 [ext_resource type="Script" path="res://addons/AWOC/ControlOverrides/single_mesh_control_override.gd" id="3_fl2b8"]
 [ext_resource type="Texture2D" uid="uid://ck44qw1l0nk63" path="res://addons/AWOC/Images/Folder.svg" id="3_gjt58"]
 [ext_resource type="Script" path="res://addons/AWOC/ControlOverrides/multiple_mesh_control_override.gd" id="5_3qgmh"]
-[ext_resource type="PackedScene" uid="uid://d1q0uhimufw7w" path="res://test_model.glb" id="9_0n8cx"]
 [ext_resource type="PackedScene" uid="uid://cwkbfc3xc10al" path="res://addons/AWOC/Scenes/PreviewPanes/MeshPreview/mesh_preview.tscn" id="9_o487o"]
 
 [node name="Meshes" type="MarginContainer" node_paths=PackedStringArray("single_mesh_line_edit", "add_single_mesh_button", "mesh_file_line_edit", "mesh_file_browse_button", "add_mesh_file_button", "mesh_list_container", "load_mesh_dialog", "main_container")]
@@ -45,7 +44,7 @@ theme_override_constants/separation = 10
 [node name="HeadLabel" type="Label" parent="HBoxContainer/MainContainer"]
 layout_mode = 2
 theme = ExtResource("2_uaf4o")
-text = "Meshes"
+text = "Avatar"
 horizontal_alignment = 1
 
 [node name="MeshFileContainer" type="HBoxContainer" parent="HBoxContainer/MainContainer"]
@@ -56,7 +55,7 @@ theme_override_constants/separation = 10
 custom_minimum_size = Vector2(190, 0)
 layout_mode = 2
 theme = ExtResource("2_uaf4o")
-placeholder_text = "Mesh file from file system"
+placeholder_text = "Avatar file from file system"
 script = ExtResource("5_3qgmh")
 
 [node name="MeshFileBrowseButton" type="Button" parent="HBoxContainer/MainContainer/MeshFileContainer"]
@@ -128,11 +127,7 @@ ok_button_text = "Open"
 file_mode = 0
 filters = PackedStringArray("*.glb ; GL Transmission Format Binary file")
 
-[node name="test_model" parent="." instance=ExtResource("9_0n8cx")]
-
 [connection signal="pressed" from="HBoxContainer/MainContainer/MeshFileContainer/MeshFileBrowseButton" to="." method="_on_mesh_file_browse_button_pressed"]
 [connection signal="pressed" from="HBoxContainer/MainContainer/MeshFileContainer/AddMeshFileButton" to="." method="_on_add_mesh_file_button_pressed"]
 [connection signal="pressed" from="HBoxContainer/MainContainer/SingleMeshContainer/AddSingleMeshButton" to="." method="_on_add_single_mesh_button_pressed"]
 [connection signal="file_selected" from="HBoxContainer/MainContainer/LoadMeshDialog" to="." method="_on_load_mesh_dialog_file_selected"]
-
-[editable path="test_model"]

@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://dqfk4la33htnd"]
+
+[ext_resource type="Script" path="res://addons/AWOC/Scenes/CenterPanes/ImagesPane/awoc_images_pane.gd" id="1_h57h5"]
+[ext_resource type="Theme" uid="uid://drffev6w87ljh" path="res://addons/AWOC/Themes/main_theme.tres" id="2_2icgg"]
+
+[node name="ImagesPane" type="MarginContainer"]
+custom_minimum_size = Vector2(275, 436)
+anchors_preset = -1
+anchor_right = 0.239
+anchor_bottom = 0.673
+offset_right = -235.328
+offset_bottom = -396.104
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+script = ExtResource("1_h57h5")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_2icgg")
+text = "Images"
+horizontal_alignment = 1

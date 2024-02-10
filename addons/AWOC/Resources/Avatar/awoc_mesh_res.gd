@@ -21,7 +21,7 @@ func serialize_mesh(source_mesh: MeshInstance3D)-> int:
 func deserialize_mesh(skeleton: Skeleton3D) -> int:
 	if surface_array == null or surface_array.size() < 1:
 		printerr("The mesh resource you are trying to use has not been initilized with mesh data.\nAWOCMeshRes deserialize_mesh")
-		return AWOCError.MESH_NOT_INITILIZED
+		return AWOCError.RESOURCE_NOT_INITILIZED
 	var new_mesh: ArrayMesh = ArrayMesh.new()
 	var surface_count = surface_array.size()
 	if surface_count < 1:

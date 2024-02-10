@@ -6,7 +6,6 @@ class_name AWOCRes extends Resource
 @export var awoc_resource_container: AWOCResContainer
 @export var slots_res: AWOCSlotsRes 
 @export var avatar_res: AWOCAvatarRes
-@export var mesh_res_ids_array: Array
 #@export var AvatarRes awocAvatarRes;
 #@export var MaterialsRes awocMaterialRes;
 

@@ -114,7 +114,7 @@ func _on_confirm_save_dialog_confirmed():
 	if error == AWOCError.SUCCESS:
 		awoc_res.save_awoc()
 		set_slot_name(slot_name_edit.text, awoc_res)
-	if error == AWOCError.SLOT_EXISTS:
+	if error == AWOCError.ELEMENT_EXISTS:
 		printerr("Should not get this error.\nAWOCSlotContainer _on_confirm_save_dialog_confirmed")
 	populate.emit()
 	

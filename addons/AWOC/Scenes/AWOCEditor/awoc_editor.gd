@@ -5,6 +5,7 @@ class_name AWOCEditor extends Control
 @export var welcome_pane: PackedScene
 @export var new_awoc_pane: PackedScene
 @export var slots_pane: PackedScene
+@export var images_pane: PackedScene
 @export var meshes_pane: PackedScene
 @export var materials_pane: PackedScene
 @export var recipes_pane: PackedScene
@@ -17,6 +18,7 @@ class_name AWOCEditor extends Control
 # Each button corresponds to a pane above. When clicked, the old center pane is released and the 
 # new pane is added 
 @export var slots_button: Button
+@export var images_button: Button
 @export var meshes_button: Button
 @export var materials_button: Button
 @export var recipes_button: Button
@@ -40,6 +42,7 @@ var current_pane: AWOCCenterPaneBase
 # <returns>void</returns>
 func disable_left_nav(disable: bool):
 	slots_button.disabled = disable
+	images_button.disabled = disable
 	meshes_button.disabled = disable
 	animations_button.disabled = disable
 	materials_button.disabled = disable
@@ -130,3 +133,6 @@ func _on_animations_button_pressed():
 
 func _ready():
 	load_pane(welcome_pane)
+
+func _on_images_button_pressed():
+	load_pane(images_pane)

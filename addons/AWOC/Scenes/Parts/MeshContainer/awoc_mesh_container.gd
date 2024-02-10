@@ -16,21 +16,22 @@ func set_mesh_name(m_name: String):
 	mesh_name_line_edit.text = m_name
 	
 func _on_save_button_pressed():
-	rename_confirmation_dialog.title = "Rename " + mesh_name + "?"
-	rename_confirmation_dialog.dialog_text = "Are you sure you wish to rename " + mesh_name + " to " + mesh_name_line_edit.text + "? This can not be undone."
-	rename_confirmation_dialog.visible = true
-		
-func _on_rename_confirmation_dialog_confirmed():
-	var saved: int = awoc_res.awoc_avatar_res.rename_mesh(mesh_name, mesh_name_line_edit.text, false)
-	"""if saved == AWOCAvatarRes.MESH_DOES_NOT_EXIST:
-		printerr("Mesh " + mesh_name + " does not exist")
-	if saved == AWOCAvatarRes.MESH_EXISTS:
+	var new_mesh_name: String = mesh_name_line_edit.text
+	if awoc_res.avatar_res.mesh_res_container_dict.has(new_mesh_name):
 		overwrite_mesh_confirmation_dialog.title = "Overwrite " + mesh_name + "?"
 		overwrite_mesh_confirmation_dialog.dialog_text = "Do you wish to overwrite the existing slot named " + mesh_name_line_edit.text + "?" 
 		overwrite_mesh_confirmation_dialog.visible = true
-		return
+	else:
+		rename_confirmation_dialog.title = "Rename " + mesh_name + "?"
+		rename_confirmation_dialog.dialog_text = "Are you sure you wish to rename " + mesh_name + " to " + new_mesh_name + "? This can not be undone."
+		rename_confirmation_dialog.visible = true
+		
+func _on_rename_confirmation_dialog_confirmed():
+	var new_mesh_name: String = mesh_name_line_edit.text
+	var saved: int = awoc_res.awoc_avatar_res.rename_mesh(mesh_name, new_mesh_name, false)
+	printerr("This is where you left off.\nAWOCMeshContainer _on_rename_confirmation_dialog_confirmed")
 	mesh_name = mesh_name_line_edit.text
-	awoc_res.save_awoc()"""
+	awoc_res.save_awoc()
 
 func _on_overwrite_mesh_confirmation_dialog_confirmed():
 	var saved: int = awoc_res.awoc_avatar_res.rename_mesh(mesh_name, mesh_name_line_edit.text, true)

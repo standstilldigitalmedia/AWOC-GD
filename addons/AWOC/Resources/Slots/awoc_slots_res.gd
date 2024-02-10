@@ -18,10 +18,10 @@ func get_available_hide_slots(slot_name: String) -> PackedStringArray:
 func check_for_slot(slot_name: String, func_name: String) -> int:
 	if slots == null:
 		printerr("Slots dictionary in AWOCSlotRes has not been initilized\nAWOCSlotRes " + func_name)
-		return AWOCError.SLOTS_NOT_INITILIZED
+		return AWOCError.ARRAY_NOT_INITILIZED
 	if !slots.has(slot_name):
 		printerr("Slot " + slot_name + " doesn't exist.\nAWOCSlotRes " + func_name)
-		return AWOCError.SLOT_DOESNT_EXIST
+		return AWOCError.ELEMENT_DOES_NOT_EXIST
 	return AWOCError.SUCCESS
 	
 func add_slot(slot_name: String, overwrite: bool) -> int:
@@ -30,9 +30,9 @@ func add_slot(slot_name: String, overwrite: bool) -> int:
 		return AWOCError.INVALID_NAME
 	if slots == null:
 		printerr("Slots dictionary in AWOCSlotRes has not been initilized\nAWOCSlotRes add_slot")
-		return AWOCError.SLOTS_NOT_INITILIZED
+		return AWOCError.ARRAY_NOT_INITILIZED
 	if !overwrite and slots.has(slot_name):
-		return AWOCError.SLOT_EXISTS
+		return AWOCError.ELEMENT_EXISTS
 		
 	slots[slot_name] = PackedStringArray()
 	if !slots.has(slot_name) or slots[slot_name] == null:
@@ -45,7 +45,7 @@ func rename_slot(slot_to_rename: String, new_name: String, overwrite: bool) -> i
 	if check_slot != AWOCError.SUCCESS:
 		return check_slot
 	if !overwrite and slots.has(new_name):
-		return AWOCError.SLOT_EXISTS
+		return AWOCError.ELEMENT_EXISTS
 	for slot in slots:
 		if slots[slot] != null and slots[slot].size() > 0: 
 			for a in slots[slot].size():
@@ -97,7 +97,7 @@ func rename_hide_slot(slot_name: String, hide_slot_name: String, new_name: Strin
 			slots[slot_name][a] = new_name
 			return AWOCError.SUCCESS
 	printerr("Hide slot " + hide_slot_name + " does not exist.\nAWOCSlotRes rename_hide_slot")
-	return AWOCError.HIDE_SLOT_DOESNT_EXIST
+	return AWOCError.ELEMENT_DOES_NOT_EXIST
 
 func delete_hide_slot(slot_name: String, hide_slot_name) -> int:
 	var check_slot: int = check_for_slot(slot_name, "delete_hide_slot")
@@ -107,4 +107,4 @@ func delete_hide_slot(slot_name: String, hide_slot_name) -> int:
 		if slots[slot_name][a] == hide_slot_name:
 			slots[slot_name].remove_at(a)
 			return AWOCError.SUCCESS
-	return AWOCError.HIDE_SLOT_DOESNT_EXIST
+	return AWOCError.ELEMENT_DOES_NOT_EXIST
