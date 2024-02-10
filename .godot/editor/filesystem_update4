@@ -1,6 +1,5 @@
 res://addons/AWOC/Scenes/Parts/SlotContainer/SlotContainer.tscn
 res://addons/AWOC/Themes/main_theme.tres
-res://zsdfsdf/sdfsfsdf.res
 res://addons/AWOC/Scenes/CenterPanes/Meshes/MeshesPane.tscn
 res://addons/AWOC/Scenes/PreviewPanes/MeshPreview/mesh_preview.tscn
 res://addons/AWOC/Scenes/AWOCEditor/Awoc_Editor.tscn
@@ -8,7 +7,3 @@ res://addons/AWOC/Scenes/CenterPanes/Slots/SlotsPane.tscn
 res://addons/AWOC/Scenes/CenterPanes/NewAWOC/NewAWOCPane.tscn
 res://addons/AWOC/Scenes/CenterPanes/ImagesPane/ImagesPane.tscn
 res://addons/AWOC/Scenes/Parts/MeshContainer/MeshContainer.tscn
-res://build_test.tscn
-res://addons/AWOC/Resources/AWOC/awoc_res.gd
-res://newawoc/newawoc.res
-res://newawoc/Avatar/skeleton.res
